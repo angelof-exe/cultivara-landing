@@ -1,0 +1,104 @@
+import type { Metadata, Viewport } from 'next'
+import { DM_Sans, DM_Serif_Display } from 'next/font/google'
+
+import './globals.css'
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+})
+
+const dmSerif = DM_Serif_Display({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-dm-serif',
+})
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Quaderno di Campagna Digitale | Cultivara — Registro Trattamenti Online',
+    template: '%s | Cultivara — Quaderno di Campagna Digitale',
+  },
+  description:
+    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni e irrigazioni in meno di 60 secondi. Gratis per iniziare, conforme AGEA e SIAN.',
+  keywords: [
+    'quaderno di campagna',
+    'quaderno di campagna digitale',
+    'quaderno di campagna online',
+    'quaderno di campagna elettronico',
+    'registro trattamenti fitosanitari',
+    'registro trattamenti digitale',
+    'registro trattamenti online',
+    'QDCA digitale',
+    'quaderno campagna AGEA',
+    'quaderno campagna SIAN',
+    'obbligo quaderno di campagna 2027',
+    'agricoltura digitale',
+    'registro fitosanitario',
+    'software agricoltura',
+    'gestione azienda agricola',
+    'Regolamento UE 2023/564',
+    'D.Lgs. 150/2012',
+  ],
+  authors: [{ name: 'Cultivara' }],
+  creator: 'Cultivara',
+  publisher: 'Cultivara',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    title: 'Quaderno di Campagna Digitale | Cultivara',
+    description:
+      'Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme AGEA e Regolamento UE 2023/564. Registra trattamenti in 60 secondi. Gratis per iniziare.',
+    type: 'website',
+    locale: 'it_IT',
+    siteName: 'Cultivara',
+    url: 'https://cultivara.it',
+    images: [
+      {
+        url: '/images/og-cultivara.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Cultivara \u2014 Quaderno di Campagna Digitale',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Quaderno di Campagna Digitale | Cultivara',
+    description:
+      'Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme AGEA, SIAN e Regolamento UE 2023/564.',
+    images: ['/images/og-cultivara.jpg'],
+  },
+  alternates: {
+    canonical: 'https://cultivara.it',
+  },
+  category: 'technology',
+}
+
+export const viewport: Viewport = {
+  themeColor: '#4a7a3b',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="it" className={`${dmSans.variable} ${dmSerif.variable}`}>
+      <body className="font-sans antialiased">{children}</body>
+    </html>
+  )
+}
