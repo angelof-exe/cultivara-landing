@@ -6,7 +6,7 @@ export function StructuredData() {
     url: "https://cultivara.it",
     logo: "https://cultivara.it/images/logo.png",
     description:
-      "Cultivara \u00e8 la piattaforma per il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme al Regolamento UE 2023/564.",
+      "Cultivara è la piattaforma per il quaderno di campagna digitale più semplice d\u2019Italia. Conforme al Regolamento UE 2023/564.",
     sameAs: [],
     contactPoint: {
       "@type": "ContactPoint",
@@ -23,7 +23,7 @@ export function StructuredData() {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web, Android, iOS",
     description:
-      "Software per il quaderno di campagna digitale. Registro trattamenti fitosanitari, fertilizzazioni e irrigazioni conforme al Regolamento UE 2023/564 e AGEA.",
+      "Software per il quaderno di campagna digitale. Registro trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali, magazzino prodotti e costi colturali. 15 controlli automatici di conformità (normativi, Ecoschemi PAC, Disciplinari PI). Export PDF, JSON e XML. Conforme al Regolamento UE 2023/564 e AGEA.",
     offers: [
       {
         "@type": "Offer",
@@ -39,7 +39,7 @@ export function StructuredData() {
         priceCurrency: "EUR",
         name: "Piano Pro \u2014 Quaderno di Campagna completo",
         description:
-          "Tutte le 10 sezioni AGEA, appezzamenti illimitati, export SIAN e PDF conforme, dashboard analytics.",
+          "Tutte le 10 sezioni AGEA, appezzamenti illimitati, 15 controlli automatici (normativi, Ecoschemi PAC, Disciplinari PI), operazioni colturali, costi colturali con riepilogo €/ha, export PDF/JSON/XML conforme, dashboard analytics.",
         priceValidUntil: "2027-01-01",
       },
       {
@@ -48,7 +48,7 @@ export function StructuredData() {
         priceCurrency: "EUR",
         name: "Piano Premium \u2014 Quaderno di Campagna avanzato",
         description:
-          "Tutte le funzionalit\u00e0 Pro pi\u00f9 DSS, alert meteo, gestione magazzino, multi-utente e API.",
+          "Tutte le funzionalità Pro più gestione magazzino completa (movimenti, alert scadenze e scorte), DSS, alert meteo, multi-utente e API.",
         priceValidUntil: "2027-01-01",
       },
     ],
@@ -66,18 +66,18 @@ export function StructuredData() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "Il quaderno di campagna digitale \u00e8 obbligatorio?",
+        name: "Il quaderno di campagna digitale è obbligatorio?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "S\u00ec. Dal 1 Gennaio 2027, tutte le aziende agricole italiane dovranno tenere il registro trattamenti in formato elettronico, come previsto dal Regolamento UE 2023/564 e dal D.Lgs. 150/2012.",
+          text: "Sì. Dal 1 Gennaio 2027, tutte le aziende agricole italiane dovranno tenere il registro trattamenti in formato elettronico, come previsto dal Regolamento UE 2023/564 e dal D.Lgs. 150/2012.",
         },
       },
       {
         "@type": "Question",
-        name: "Cultivara \u00e8 conforme alla normativa AGEA per il quaderno di campagna?",
+        name: "Cultivara è conforme alla normativa AGEA per il quaderno di campagna?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "S\u00ec. Cultivara copre tutte le 10 sezioni richieste dalla normativa AGEA per il quaderno di campagna, inclusi i controlli automatici su dosi, colture autorizzate e tempi di carenza.",
+          text: "Sì. Cultivara copre tutte le 10 sezioni richieste dalla normativa AGEA con 15 controlli automatici: 8 normativi, 4 Ecoschemi PAC 2023-2027 e 3 Disciplinari di Produzione Integrata. Export in PDF, JSON e XML.",
         },
       },
       {
@@ -85,7 +85,7 @@ export function StructuredData() {
         name: "Devo essere esperto di tecnologia per compilare il quaderno di campagna digitale?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. Cultivara \u00e8 progettato per essere usato da chiunque, anche senza esperienza informatica. L\u2019interfaccia \u00e8 semplice, con testi grandi e flussi guidati.",
+          text: "No. Cultivara è progettato per essere usato da chiunque, anche senza esperienza informatica. L\u2019interfaccia è semplice, con testi grandi e flussi guidati.",
         },
       },
       {
@@ -93,15 +93,39 @@ export function StructuredData() {
         name: "Posso compilare il quaderno di campagna dal telefono?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "S\u00ec. Cultivara funziona su smartphone, tablet e computer. Puoi registrare un trattamento nel quaderno di campagna direttamente dal campo.",
+          text: "Sì. Cultivara funziona su smartphone, tablet e computer. Puoi registrare un trattamento nel quaderno di campagna direttamente dal campo.",
         },
       },
       {
         "@type": "Question",
-        name: "Il quaderno di campagna digitale di Cultivara \u00e8 gratuito?",
+        name: "Come funziona il magazzino prodotti di Cultivara?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "S\u00ec, il piano Free \u00e8 gratuito per sempre, senza carta di credito. Include il registro trattamenti base, fino a 3 appezzamenti e l\u2019export PDF del quaderno di campagna.",
+          text: "Il modulo magazzino gestisce fitosanitari, fertilizzanti, sementi e altro. Registri acquisti e utilizzi con aggiornamento automatico della giacenza. Alert automatici per prodotti in scadenza e scorte basse.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Posso tenere traccia dei costi colturali nel quaderno di campagna?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sì. Il modulo costi colturali registra ogni spesa per appezzamento (trattamenti, fertilizzazioni, manodopera, meccanizzazione, sementi e altro) con riepilogo €/ha e grafici aggregati per tipologia.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Cosa sono gli Ecoschemi PAC e i Disciplinari di Produzione Integrata?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Gli Ecoschemi PAC sono impegni ambientali volontari per pagamenti aggiuntivi. Cultivara verifica inerbimento arboree, colture leguminose, avvicendamento e protezione impollinatori. I Disciplinari PI controllano applicazioni massime, monitoraggio IPM e principi attivi per appezzamento.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Il quaderno di campagna digitale di Cultivara è gratuito?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Sì, il piano Free è gratuito per sempre, senza carta di credito. Include il registro trattamenti base, fino a 3 appezzamenti e l\u2019export PDF del quaderno di campagna.",
         },
       },
       {
@@ -109,7 +133,7 @@ export function StructuredData() {
         name: "Come funziona la sincronizzazione del quaderno di campagna con il SIAN?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Cultivara si integra con le API AGEA per sincronizzare il fascicolo aziendale e il Piano Colturale Grafico. L\u2019export del quaderno di campagna \u00e8 disponibile nei formati PDF, JSON e XML.",
+          text: "Cultivara si integra con le API AGEA per sincronizzare il fascicolo aziendale e il Piano Colturale Grafico. L\u2019export del quaderno di campagna è disponibile nei formati PDF, JSON e XML.",
         },
       },
       {
@@ -117,7 +141,7 @@ export function StructuredData() {
         name: "Posso importare il vecchio quaderno di campagna cartaceo in Cultivara?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "S\u00ec. Durante l\u2019onboarding puoi inserire manualmente i dati pregressi oppure importarli dal fascicolo aziendale AGEA. Il nostro team di supporto \u00e8 disponibile per aiutarti.",
+          text: "Sì. Durante l\u2019onboarding puoi inserire manualmente i dati pregressi oppure importarli dal fascicolo aziendale AGEA. Il nostro team di supporto è disponibile per aiutarti.",
         },
       },
     ],
@@ -128,7 +152,7 @@ export function StructuredData() {
     "@type": "WebPage",
     name: "Quaderno di Campagna Digitale | Cultivara",
     description:
-      "Quaderno di campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni e irrigazioni. Gratis per iniziare.",
+      "Quaderno di campagna digitale conforme al Regolamento UE 2023/564. Registro trattamenti, fertilizzazioni, irrigazioni, operazioni colturali, magazzino e costi. 15 controlli automatici. Export PDF, JSON e XML. Gratis per iniziare.",
     url: "https://cultivara.it",
     inLanguage: "it",
     isPartOf: {
@@ -140,7 +164,7 @@ export function StructuredData() {
       "@type": "Thing",
       name: "Quaderno di Campagna",
       description:
-        "Il quaderno di campagna \u00e8 il registro ufficiale in cui le aziende agricole annotano trattamenti fitosanitari, fertilizzazioni e irrigazioni. Dal 2027 sar\u00e0 obbligatorio in formato digitale.",
+        "Il quaderno di campagna è il registro ufficiale in cui le aziende agricole annotano trattamenti fitosanitari, fertilizzazioni, irrigazioni e operazioni colturali. Dal 2027 sarà obbligatorio in formato digitale.",
     },
   }
 

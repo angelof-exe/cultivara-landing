@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, Shield, Clock, Smartphone } from "lucide-react"
+import { ArrowRight, Shield, Clock, Smartphone, ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -28,8 +28,8 @@ export function Hero() {
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground text-pretty">
               Gestisci il quaderno di campagna online in meno di 60 secondi.
-              Registra trattamenti, fertilizzazioni e irrigazioni. Semplice da usare,
-              conforme alla normativa, pensato per chi lavora la terra ogni giorno.
+              Trattamenti, fertilizzazioni, irrigazioni, magazzino e costi colturali.
+              15 controlli automatici di conformità. Semplice, completo, pensato per chi lavora la terra.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -48,6 +48,10 @@ export function Hero() {
               <span className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-primary" />
                 {'< 60 secondi a trattamento'}
+              </span>
+              <span className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-primary" />
+                15 controlli automatici
               </span>
               <span className="flex items-center gap-2">
                 <Smartphone className="h-4 w-4 text-primary" />

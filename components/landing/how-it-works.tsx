@@ -27,7 +27,7 @@ const steps = [
     number: "04",
     title: "Esporta per i controlli",
     description:
-      "Genera il PDF conforme con un click. Pronto per ASL, ICQRF e sincronizzazione SIAN.",
+      "Genera il registro in PDF, JSON o XML con un click. Pronto per ASL, ICQRF e sincronizzazione SIAN.",
   },
 ]
 

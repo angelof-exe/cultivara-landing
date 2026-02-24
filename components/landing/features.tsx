@@ -3,46 +3,67 @@ import {
   ShieldCheck,
   Smartphone,
   Database,
-  FileText,
+  FileDown,
   BarChart3,
+  Warehouse,
+  EuroIcon,
+  Leaf,
 } from "lucide-react"
 
 const features = [
   {
     icon: ClipboardCheck,
-    title: "Registro Trattamenti",
+    title: "Registro QDCA Completo",
     description:
-      "Compila il registro in meno di 60 secondi. Interfaccia guidata, campi precompilati e controllo automatico delle dosi.",
+      "Tutte le 10 sezioni AGEA: trattamenti, fertilizzazioni, irrigazioni, operazioni colturali, stoccaggio, macchine e operatori. Compilazione in meno di 60 secondi.",
   },
   {
     icon: ShieldCheck,
-    title: "Conformit\u00e0 Garantita",
+    title: "15 Controlli Automatici",
     description:
-      "Copertura completa delle 10 sezioni AGEA. Controlli automatici su colture autorizzate, dosi e tempi di carenza.",
+      "Conformità garantita: 8 controlli normativi (dosi, rame, nitrati), 4 Ecoschemi PAC 2023-2027 e 3 Disciplinari Produzione Integrata. Tutto verificato in tempo reale.",
+  },
+  {
+    icon: Warehouse,
+    title: "Magazzino Prodotti",
+    description:
+      "Gestione completa del magazzino: fitosanitari, fertilizzanti, sementi. Movimenti automatici, alert scadenze e scorte basse, collegamento ai siti di stoccaggio.",
+  },
+  {
+    icon: EuroIcon,
+    title: "Costi Colturali",
+    description:
+      "Registra e analizza i costi per appezzamento: trattamenti, fertilizzazioni, manodopera, meccanizzazione e altro. Riepilogo con €/ha e grafici aggregati.",
+  },
+  {
+    icon: FileDown,
+    title: "Export PDF, JSON e XML",
+    description:
+      "Genera il registro QDCA completo in PDF per i controlli, JSON e XML machine-readable per il SIAN. Formattazione italiana, tutte le sezioni incluse.",
   },
   {
     icon: Database,
     title: "Banca Dati Prodotti",
     description:
-      "Database aggiornato dei prodotti fitosanitari con etichette, usi autorizzati e alert automatici sulle modifiche.",
+      "Database aggiornato dei prodotti fitosanitari dal Ministero della Salute. Etichette, usi autorizzati, dosi massime e contenuto rame.",
   },
   {
     icon: Smartphone,
-    title: "Mobile-First",
+    title: "Mobile-First per 60+",
     description:
-      "Progettato per funzionare perfettamente su smartphone e tablet. Registra i trattamenti direttamente dal campo.",
+      "Progettato per funzionare perfettamente su smartphone e tablet. Font grandi, flussi lineari e interfaccia semplificata per chi lavora la terra.",
   },
   {
-    icon: FileText,
-    title: "Export PDF e SIAN",
+    icon: Leaf,
+    title: "Ecoschemi e Disciplinari",
     description:
-      "Genera il registro trattamenti in PDF pronto per i controlli ASL e ICQRF. Sincronizzazione automatica con il SIAN.",
+      "Verifica automatica Ecoschemi PAC: inerbimento arboree, colture leguminose, avvicendamento e protezione impollinatori. Controlli Produzione Integrata inclusi.",
   },
   {
     icon: BarChart3,
     title: "Dashboard e Analytics",
     description:
-      "Monitora trattamenti, costi e scadenze con grafici chiari. Storico completo per ogni appezzamento.",
+      "Monitora trattamenti, costi e conformità con grafici chiari. Punteggio conformità, radar chart e storico completo per ogni appezzamento.",
   },
 ]
 
@@ -53,14 +74,15 @@ export function Features() {
         {/* Section header */}
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-            {"Funzionalit\u00e0"}
+            {"Funzionalità"}
           </p>
           <h2 className="mt-3 text-balance font-serif text-3xl text-foreground md:text-4xl">
             Tutto quello che serve nel tuo Quaderno di Campagna digitale
           </h2>
           <p className="mt-4 text-pretty text-lg leading-relaxed text-muted-foreground">
-            Dalla registrazione dei trattamenti all{"'"}export per i controlli.
-            {"Il quaderno di campagna online pi\u00f9 completo e semplice da usare."}
+            Dalla registrazione dei trattamenti ai costi colturali, dal magazzino
+            all{"'"}export per i controlli.
+            {"Il quaderno di campagna online più completo e semplice da usare."}
           </p>
         </div>
 

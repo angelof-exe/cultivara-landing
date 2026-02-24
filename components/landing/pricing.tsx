@@ -29,10 +29,13 @@ const plans = [
     features: [
       "Tutte le 10 sezioni QDCA",
       "Appezzamenti illimitati",
-      "Database prodotti completo",
-      "Controlli automatici dosi",
-      "Export SIAN e PDF conforme",
-      "Dashboard analytics",
+      "Database prodotti fitosanitari completo",
+      "15 controlli automatici conformità",
+      "Ecoschemi PAC e Disciplinari PI",
+      "Operazioni colturali (10 tipologie)",
+      "Costi colturali con riepilogo €/ha",
+      "Export PDF, JSON e XML conforme",
+      "Dashboard analytics e radar chart",
       "Supporto email prioritario",
     ],
   },
@@ -45,9 +48,10 @@ const plans = [
     cta: "Prova Premium Gratis",
     features: [
       "Tutto il piano Pro",
+      "Gestione magazzino completa",
+      "Movimenti e alert scadenze/scorte",
       "DSS e suggerimenti trattamento",
       "Alert meteo integrati",
-      "Gestione magazzino prodotti",
       "Accesso API",
       "Multi-utente",
       "Supporto prioritario dedicato",
@@ -87,7 +91,7 @@ export function Pricing() {
             >
               {plan.popular && (
                 <Badge className="absolute -top-3 left-6 px-3 py-1">
-                  {"Pi\u00f9 Popolare"}
+                  {"Più Popolare"}
                 </Badge>
               )}
 

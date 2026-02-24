@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '%s | Cultivara — Quaderno di Campagna Digitale',
   },
   description:
-    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni e irrigazioni in meno di 60 secondi. Gratis per iniziare, conforme AGEA e SIAN.',
+    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali. Magazzino prodotti, costi colturali, 15 controlli automatici. Export PDF, JSON, XML. Gratis per iniziare.',
   keywords: [
     'quaderno di campagna',
     'quaderno di campagna digitale',
@@ -39,6 +39,14 @@ export const metadata: Metadata = {
     'gestione azienda agricola',
     'Regolamento UE 2023/564',
     'D.Lgs. 150/2012',
+    'magazzino prodotti fitosanitari',
+    'costi colturali',
+    'ecoschemi PAC',
+    'produzione integrata',
+    'export QDCA PDF JSON XML',
+    'conformità agricola',
+    'Direttiva Nitrati',
+    'controllo rame',
   ],
   authors: [{ name: 'Cultivara' }],
   creator: 'Cultivara',
@@ -57,7 +65,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
-      'Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme AGEA e Regolamento UE 2023/564. Registra trattamenti in 60 secondi. Gratis per iniziare.',
+      'Il quaderno di campagna digitale più semplice d\u2019Italia. 10 sezioni AGEA, 15 controlli automatici, magazzino e costi. Export PDF/JSON/XML. Gratis per iniziare.',
     type: 'website',
     locale: 'it_IT',
     siteName: 'Cultivara',
