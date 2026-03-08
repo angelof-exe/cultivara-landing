@@ -11,7 +11,7 @@ const footerLinks = {
   Risorse: [
     { label: "Normativa UE 2023/564", href: "/normativa-ue-2023-564" },
     { label: "D.Lgs. 150/2012", href: "/dlgs-150-2012" },
-    { label: "Guida AGEA", href: "#" },
+    { label: "Guida AGEA", href: "/guida-agea" },
     { label: "Blog", href: "#" },
   ],
   Azienda: [
