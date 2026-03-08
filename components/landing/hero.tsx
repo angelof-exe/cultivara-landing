@@ -1,8 +1,14 @@
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight, Shield, Clock, Smartphone, ShieldCheck } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Shield,
+  Clock,
+  Smartphone,
+  ShieldCheck,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export function Hero() {
   return (
@@ -28,8 +34,9 @@ export function Hero() {
 
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground text-pretty">
               Gestisci il quaderno di campagna online in meno di 60 secondi.
-              Trattamenti, fertilizzazioni, irrigazioni, magazzino e costi colturali.
-              15 controlli automatici di conformità. Semplice, completo, pensato per chi lavora la terra.
+              Trattamenti, fertilizzazioni, irrigazioni, magazzino e costi
+              colturali. 15 controlli automatici di conformità. Semplice,
+              completo, pensato per chi lavora la terra.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -47,7 +54,7 @@ export function Hero() {
             <div className="mt-10 flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
               <span className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-primary" />
-                {'< 60 secondi a trattamento'}
+                {"< 60 secondi a trattamento"}
               </span>
               <span className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-primary" />
@@ -64,7 +71,7 @@ export function Hero() {
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl border border-border shadow-2xl shadow-primary/5">
               <Image
-                src="/images/app-mockup.jpg"
+                src="/images/hero_image.jpg"
                 alt="Quaderno di campagna digitale Cultivara su tablet e smartphone"
                 width={700}
                 height={500}
@@ -75,11 +82,13 @@ export function Hero() {
             {/* Floating stat card */}
             <div className="absolute -bottom-4 -left-4 rounded-xl border border-border bg-card p-4 shadow-lg md:-bottom-6 md:-left-6">
               <p className="text-2xl font-bold text-primary">800k+</p>
-              <p className="text-xs text-muted-foreground">Aziende agricole in Italia</p>
+              <p className="text-xs text-muted-foreground">
+                Aziende agricole in Italia
+              </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
