@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Leaf } from "lucide-react"
+import Link from "next/link";
+import { Leaf } from "lucide-react";
 
 const footerLinks = {
   Prodotto: [
@@ -9,7 +9,7 @@ const footerLinks = {
     { label: "FAQ", href: "#faq" },
   ],
   Risorse: [
-    { label: "Normativa UE 2023/564", href: "#" },
+    { label: "Normativa UE 2023/564", href: "/normativa-ue-2023-564" },
     { label: "D.Lgs. 150/2012", href: "#" },
     { label: "Guida AGEA", href: "#" },
     { label: "Blog", href: "#" },
@@ -20,7 +20,7 @@ const footerLinks = {
     { label: "Privacy Policy", href: "#" },
     { label: "Termini di Servizio", href: "#" },
   ],
-}
+};
 
 export function Footer() {
   return (
@@ -29,14 +29,22 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2" aria-label="Cultivara home">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2"
+              aria-label="Cultivara home"
+            >
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
                 <Leaf className="h-5 w-5 text-primary-foreground" />
               </div>
-              <span className="font-serif text-xl text-foreground">Cultivara</span>
+              <span className="font-serif text-xl text-foreground">
+                Cultivara
+              </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              {"Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia."}
+              {
+                "Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia."
+              }
               {" Conforme al Regolamento UE 2023/564, AGEA e SIAN."}
             </p>
           </div>
@@ -44,7 +52,9 @@ export function Footer() {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h3 className="text-sm font-semibold text-foreground">{category}</h3>
+              <h3 className="text-sm font-semibold text-foreground">
+                {category}
+              </h3>
               <ul className="mt-4 flex flex-col gap-3" role="list">
                 {links.map((link) => (
                   <li key={link.label}>
@@ -72,5 +82,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
