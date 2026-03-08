@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
 
 const faqs = [
   {
@@ -48,21 +48,14 @@ const faqs = [
     answer:
       "Sì, il piano Free è gratuito per sempre, senza carta di credito. Include il registro trattamenti base, fino a 3 appezzamenti e l\u2019export PDF. Puoi passare al piano Pro in qualsiasi momento se hai bisogno di tutte le 10 sezioni QDCA, i 15 controlli automatici, il magazzino e i costi colturali.",
   },
-  {
-    question: "Come funziona la sincronizzazione con il SIAN?",
-    answer:
-      "Cultivara si integra con le API AGEA per sincronizzare automaticamente il fascicolo aziendale e il Piano Colturale Grafico. L\u2019export del registro QDCA è disponibile nei formati PDF, JSON e XML, pronti per la trasmissione al Sistema Informativo Agricolo Nazionale.",
-  },
-  {
-    question: "Posso importare i dati dal mio vecchio quaderno cartaceo?",
-    answer:
-      "Sì. Durante l\u2019onboarding puoi inserire manualmente i dati pregressi oppure importarli dal fascicolo aziendale AGEA. Il nostro team di supporto è disponibile per aiutarti con la migrazione.",
-  },
-]
+];
 
 export function Faq() {
   return (
-    <section id="faq" className="border-t border-border/60 bg-card py-20 lg:py-28">
+    <section
+      id="faq"
+      className="border-t border-border/60 bg-card py-20 lg:py-28"
+    >
       <div className="mx-auto max-w-3xl px-4 lg:px-8">
         {/* Section header */}
         <div className="text-center">
@@ -89,5 +82,5 @@ export function Faq() {
         </Accordion>
       </div>
     </section>
-  )
+  );
 }
