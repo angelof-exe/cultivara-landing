@@ -16,12 +16,13 @@ const dmSerif = DM_Serif_Display({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://cultivara.it'),
   title: {
-    default: 'Quaderno di Campagna Digitale | Cultivara — Registro Trattamenti Online',
+    default: 'Quaderno di Campagna Digitale | Cultivara',
     template: '%s | Cultivara — Quaderno di Campagna Digitale',
   },
   description:
-    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali. Magazzino prodotti, costi colturali, 15 controlli automatici. Export PDF, JSON, XML. Gratis per iniziare.',
+    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali. Magazzino prodotti, costi colturali, 15 controlli automatici.',
   keywords: [
     'quaderno di campagna',
     'quaderno di campagna digitale',
@@ -66,16 +67,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
-      'Il quaderno di campagna digitale più semplice d\u2019Italia. 10 sezioni AGEA, 15 controlli automatici, magazzino e costi. Export PDF/JSON/XML. Gratis per iniziare.',
+      'Il quaderno di campagna digitale più semplice d\u2019Italia. 10 sezioni AGEA, 15 controlli automatici, magazzino e costi.',
     type: 'website',
     locale: 'it_IT',
     siteName: 'Cultivara',
     url: 'https://cultivara.it',
     images: [
       {
-        url: '/images/og-cultivara.jpg',
-        width: 1200,
-        height: 630,
+        url: '/logo.svg',
         alt: 'Cultivara \u2014 Quaderno di Campagna Digitale',
       },
     ],
@@ -85,7 +84,7 @@ export const metadata: Metadata = {
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
       'Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme AGEA, SIAN e Regolamento UE 2023/564.',
-    images: ['/images/og-cultivara.jpg'],
+    images: ['/logo.svg'],
   },
   alternates: {
     canonical: 'https://cultivara.it',
