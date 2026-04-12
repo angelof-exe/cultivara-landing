@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import Image from "next/image";
+import { isWaitlist } from "@/lib/config";
 
 const footerLinks = {
   Prodotto: [
     { label: "Funzionalit\u00e0", href: "#funzionalita" },
-    { label: "Prezzi", href: "#prezzi" },
+    isWaitlist
+      ? { label: "Lista d'Attesa", href: "#lista-attesa" }
+      : { label: "Prezzi", href: "#prezzi" },
     { label: "Come Funziona", href: "#come-funziona" },
     { label: "FAQ", href: "#faq" },
   ],
@@ -34,9 +37,7 @@ export function Footer() {
               className="inline-flex items-center gap-2"
               aria-label="Cultivara home"
             >
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Leaf className="h-5 w-5 text-primary-foreground" />
-              </div>
+              <Image src="/logo.svg" alt="Cultivara logo" width={36} height={36} className="h-9 w-9" />
               <span className="font-serif text-xl text-foreground">
                 Cultivara
               </span>

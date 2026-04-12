@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { isWaitlist } from "@/lib/config"
 
 export function Cta() {
   return (
@@ -13,11 +14,14 @@ export function Cta() {
 
           <div className="relative">
             <h2 className="text-balance font-serif text-3xl text-primary-foreground md:text-4xl lg:text-5xl">
-              Attiva il tuo Quaderno di Campagna digitale, oggi
+              {isWaitlist
+                ? "Non perdere il lancio di Cultivara"
+                : "Attiva il tuo Quaderno di Campagna digitale, oggi"}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-pretty text-lg leading-relaxed text-primary-foreground/80">
-              {"Inizia gratis e scopri quanto \u00e8 semplice gestire il quaderno di campagna online con Cultivara."}
-              {" Nessuna carta di credito richiesta."}
+              {isWaitlist
+                ? "Iscriviti alla lista d'attesa per essere tra i primi a provare il quaderno di campagna digitale pi\u00f9 semplice d'Italia."
+                : "Inizia gratis e scopri quanto \u00e8 semplice gestire il quaderno di campagna online con Cultivara. Nessuna carta di credito richiesta."}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button
@@ -26,8 +30,8 @@ export function Cta() {
                 className="gap-2 bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 asChild
               >
-                <Link href="#inizia">
-                  Inizia Gratis
+                <Link href={isWaitlist ? "#lista-attesa" : "#inizia"}>
+                  {isWaitlist ? "Iscriviti alla Lista d'Attesa" : "Inizia Gratis"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

@@ -2,13 +2,17 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, X, Leaf } from "lucide-react"
+import { Menu, X } from "lucide-react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { isWaitlist } from "@/lib/config"
 
 const navLinks = [
   { label: "Funzionalit\u00e0", href: "#funzionalita" },
   { label: "Come Funziona", href: "#come-funziona" },
-  { label: "Prezzi", href: "#prezzi" },
+  isWaitlist
+    ? { label: "Lista d'Attesa", href: "#lista-attesa" }
+    : { label: "Prezzi", href: "#prezzi" },
   { label: "FAQ", href: "#faq" },
 ]
 
@@ -19,9 +23,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2" aria-label="Cultivara home">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <Leaf className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <Image src="/logo.svg" alt="Cultivara logo" width={36} height={36} className="h-9 w-9" />
           <span className="font-serif text-xl text-foreground">Cultivara</span>
         </Link>
 
@@ -39,11 +41,15 @@ export function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="#prezzi">Accedi</Link>
-          </Button>
+          {!isWaitlist && (
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="#prezzi">Accedi</Link>
+            </Button>
+          )}
           <Button size="sm" asChild>
-            <Link href="#prezzi">Inizia Gratis</Link>
+            <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"}>
+              {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
+            </Link>
           </Button>
         </div>
 
@@ -72,11 +78,15 @@ export function Navbar() {
             ))}
           </ul>
           <div className="mt-6 flex flex-col gap-3">
-            <Button variant="outline" asChild>
-              <Link href="#prezzi" onClick={() => setMobileOpen(false)}>Accedi</Link>
-            </Button>
+            {!isWaitlist && (
+              <Button variant="outline" asChild>
+                <Link href="#prezzi" onClick={() => setMobileOpen(false)}>Accedi</Link>
+              </Button>
+            )}
             <Button asChild>
-              <Link href="#prezzi" onClick={() => setMobileOpen(false)}>Inizia Gratis</Link>
+              <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"} onClick={() => setMobileOpen(false)}>
+                {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
+              </Link>
             </Button>
           </div>
         </div>

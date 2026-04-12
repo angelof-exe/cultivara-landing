@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { isWaitlist } from "@/lib/config";
 
 export function Hero() {
   return (
@@ -41,8 +42,8 @@ export function Hero() {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="gap-2 text-base" asChild>
-                <Link href="#prezzi">
-                  Inizia Gratis
+                <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"}>
+                  {isWaitlist ? "Unisciti alla Lista d'Attesa" : "Inizia Gratis"}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

@@ -1,10 +1,12 @@
+import { isWaitlist } from "@/lib/config"
+
 export function StructuredData() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Cultivara",
     url: "https://cultivara.it",
-    logo: "https://cultivara.it/images/logo.png",
+    logo: "https://cultivara.it/logo.svg",
     description:
       "Cultivara è la piattaforma per il quaderno di campagna digitale più semplice d\u2019Italia. Conforme al Regolamento UE 2023/564.",
     sameAs: [],
@@ -24,40 +26,42 @@ export function StructuredData() {
     operatingSystem: "Web, Android, iOS",
     description:
       "Software per il quaderno di campagna digitale. Registro trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali, magazzino prodotti e costi colturali. 15 controlli automatici di conformità (normativi, Ecoschemi PAC, Disciplinari PI). Export PDF, JSON e XML. Conforme al Regolamento UE 2023/564 e AGEA.",
-    offers: [
-      {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "EUR",
-        name: "Piano Free \u2014 Quaderno di Campagna base",
-        description:
-          "Registro trattamenti base, fino a 3 appezzamenti, export PDF. Gratis per sempre.",
+    ...(isWaitlist ? {} : {
+      offers: [
+        {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "EUR",
+          name: "Piano Free \u2014 Quaderno di Campagna base",
+          description:
+            "Registro trattamenti base, fino a 3 appezzamenti, export PDF. Gratis per sempre.",
+        },
+        {
+          "@type": "Offer",
+          price: "9.90",
+          priceCurrency: "EUR",
+          name: "Piano Pro \u2014 Quaderno di Campagna completo",
+          description:
+            "Tutte le 10 sezioni AGEA, appezzamenti illimitati, 15 controlli automatici (normativi, Ecoschemi PAC, Disciplinari PI), operazioni colturali, costi colturali con riepilogo €/ha, export PDF/JSON/XML conforme, dashboard analytics.",
+          priceValidUntil: "2027-01-01",
+        },
+        {
+          "@type": "Offer",
+          price: "24.90",
+          priceCurrency: "EUR",
+          name: "Piano Premium \u2014 Quaderno di Campagna avanzato",
+          description:
+            "Tutte le funzionalità Pro più gestione magazzino completa (movimenti, alert scadenze e scorte), DSS, alert meteo, multi-utente e API.",
+          priceValidUntil: "2027-01-01",
+        },
+      ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        ratingCount: "120",
+        bestRating: "5",
       },
-      {
-        "@type": "Offer",
-        price: "9.90",
-        priceCurrency: "EUR",
-        name: "Piano Pro \u2014 Quaderno di Campagna completo",
-        description:
-          "Tutte le 10 sezioni AGEA, appezzamenti illimitati, 15 controlli automatici (normativi, Ecoschemi PAC, Disciplinari PI), operazioni colturali, costi colturali con riepilogo €/ha, export PDF/JSON/XML conforme, dashboard analytics.",
-        priceValidUntil: "2027-01-01",
-      },
-      {
-        "@type": "Offer",
-        price: "24.90",
-        priceCurrency: "EUR",
-        name: "Piano Premium \u2014 Quaderno di Campagna avanzato",
-        description:
-          "Tutte le funzionalità Pro più gestione magazzino completa (movimenti, alert scadenze e scorte), DSS, alert meteo, multi-utente e API.",
-        priceValidUntil: "2027-01-01",
-      },
-    ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "120",
-      bestRating: "5",
-    },
+    }),
   }
 
   const faqSchema = {

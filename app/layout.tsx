@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 
+import { Toaster } from 'sonner'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -106,7 +107,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={`${dmSans.variable} ${dmSerif.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <Toaster position="top-center" richColors />
+      </body>
     </html>
   )
 }
