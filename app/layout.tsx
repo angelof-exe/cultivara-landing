@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 
 import { Toaster } from 'sonner'
+import { CookieConsentProvider } from '@/components/cookie-consent-provider'
+import { Analytics } from '@/components/analytics'
+import { CookieConsentBanner } from '@/components/cookie-consent-banner'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -107,8 +110,12 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${dmSans.variable} ${dmSerif.variable}`}>
       <body className="font-sans antialiased">
-        {children}
-        <Toaster position="top-center" richColors />
+        <CookieConsentProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+          <Analytics />
+          <CookieConsentBanner />
+        </CookieConsentProvider>
       </body>
     </html>
   )

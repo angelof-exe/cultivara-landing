@@ -7,6 +7,7 @@ import { z } from "zod"
 import emailjs from "@emailjs/browser"
 import { Send, CheckCircle2, Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { trackWaitlistSubmission } from "@/lib/analytics"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -67,6 +68,7 @@ export function WaitlistForm() {
         messaggio: data.messaggio || "Nessun messaggio",
       }, publicKey)
 
+      trackWaitlistSubmission()
       setSubmitted(true)
       toast.success("Richiesta inviata con successo!")
       form.reset()
