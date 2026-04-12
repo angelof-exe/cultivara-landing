@@ -9,7 +9,10 @@ export function StructuredData() {
     logo: "https://cultivara.it/logo.svg",
     description:
       "Cultivara è la piattaforma per il quaderno di campagna digitale più semplice d\u2019Italia. Conforme al Regolamento UE 2023/564.",
-    sameAs: [],
+    sameAs: [
+      "https://www.instagram.com/cultivara.it/",
+      "https://www.facebook.com/cultivara.it",
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       email: "info@cultivara.it",

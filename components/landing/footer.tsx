@@ -1,6 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Instagram, Facebook } from "lucide-react";
 import { isWaitlist } from "@/lib/config";
+
+const socialLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/cultivara.it/",
+    icon: Instagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/cultivara.it",
+    icon: Facebook,
+  },
+];
 
 const footerLinks = {
   Prodotto: [
@@ -48,6 +62,20 @@ export function Footer() {
               }
               {" Conforme al Regolamento UE 2023/564, AGEA e SIAN."}
             </p>
+            <div className="mt-6 flex gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <social.icon className="h-5 w-5" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Link columns */}
