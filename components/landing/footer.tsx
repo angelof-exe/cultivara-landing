@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Facebook } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 import { isWaitlist } from "@/lib/config";
 
 const socialLinks = [
@@ -71,6 +74,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   className="text-muted-foreground transition-colors hover:text-foreground"
+                  onClick={() => trackEvent("social_click", { platform: social.label.toLowerCase() })}
                 >
                   <social.icon className="h-5 w-5" />
                 </a>

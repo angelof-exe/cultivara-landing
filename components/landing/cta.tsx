@@ -1,11 +1,12 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { TrackedLink } from "@/components/tracked-link"
 import { isWaitlist } from "@/lib/config"
 
 export function Cta() {
   return (
-    <section className="py-20 lg:py-28">
+    <section id="cta-finale" className="py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="relative overflow-hidden rounded-2xl bg-primary px-6 py-16 text-center lg:px-16 lg:py-20">
           {/* Decorative circles */}
@@ -30,10 +31,14 @@ export function Cta() {
                 className="gap-2 bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 asChild
               >
-                <Link href={isWaitlist ? "#lista-attesa" : "#inizia"}>
+                <TrackedLink
+                  href={isWaitlist ? "#lista-attesa" : "#inizia"}
+                  eventName="cta_click"
+                  eventParams={{ location: "cta_finale", label: isWaitlist ? "waitlist" : "inizia_gratis" }}
+                >
                   {isWaitlist ? "Iscriviti alla Lista d'Attesa" : "Inizia Gratis"}
                   <ArrowRight className="h-4 w-4" />
-                </Link>
+                </TrackedLink>
               </Button>
               <Button
                 size="lg"
@@ -41,7 +46,13 @@ export function Cta() {
                 className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                 asChild
               >
-                <Link href="mailto:info@cultivara.it">Parla con Noi</Link>
+                <TrackedLink
+                  href="mailto:info@cultivara.it"
+                  eventName="cta_click"
+                  eventParams={{ location: "cta_finale", label: "contatto_email" }}
+                >
+                  Parla con Noi
+                </TrackedLink>
               </Button>
             </div>
           </div>

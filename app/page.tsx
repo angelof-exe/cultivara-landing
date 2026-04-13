@@ -11,6 +11,7 @@ import { Faq } from "@/components/landing/faq"
 import { Cta } from "@/components/landing/cta"
 import { Footer } from "@/components/landing/footer"
 import { StructuredData } from "@/components/landing/structured-data"
+import { SectionViewTracker } from "@/components/section-view-tracker"
 
 export default function Page() {
   return (
@@ -28,6 +29,7 @@ export default function Page() {
         <Cta />
       </main>
       <Footer />
+      <SectionViewTracker />
     </>
   )
 }

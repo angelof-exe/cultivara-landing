@@ -48,7 +48,7 @@ const complianceGroups = [
 
 export function Compliance() {
   return (
-    <section className="border-t border-border/60 bg-card py-20 lg:py-28">
+    <section id="conformita" className="border-t border-border/60 bg-card py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         {/* Top — QDCA 10 sections */}
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">

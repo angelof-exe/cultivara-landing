@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { TrackedLink } from "@/components/tracked-link";
 import {
   ArrowRight,
   Shield,
@@ -13,7 +14,7 @@ import { isWaitlist } from "@/lib/config";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
+    <section id="hero" className="relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_30%_20%,hsl(100_35%_32%/0.06),transparent_50%)]" />
 
@@ -42,13 +43,23 @@ export function Hero() {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" className="gap-2 text-base" asChild>
-                <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"}>
+                <TrackedLink
+                  href={isWaitlist ? "#lista-attesa" : "#prezzi"}
+                  eventName="cta_click"
+                  eventParams={{ location: "hero", label: isWaitlist ? "waitlist" : "inizia_gratis" }}
+                >
                   {isWaitlist ? "Unisciti alla Lista d'Attesa" : "Inizia Gratis"}
                   <ArrowRight className="h-4 w-4" />
-                </Link>
+                </TrackedLink>
               </Button>
               <Button size="lg" variant="outline" className="text-base" asChild>
-                <Link href="#come-funziona">Scopri Come Funziona</Link>
+                <TrackedLink
+                  href="#come-funziona"
+                  eventName="cta_click"
+                  eventParams={{ location: "hero", label: "come_funziona" }}
+                >
+                  Scopri Come Funziona
+                </TrackedLink>
               </Button>
             </div>
 
