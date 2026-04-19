@@ -2,22 +2,36 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { isWaitlist } from "@/lib/config"
 
-const navLinks = [
+type NavLink = { label: string; href: string; isRoute?: boolean }
+
+const navLinks: NavLink[] = [
   { label: "Funzionalit\u00e0", href: "#funzionalita" },
   { label: "Come Funziona", href: "#come-funziona" },
+  { label: "Blog", href: "/blog", isRoute: true },
   isWaitlist
     ? { label: "Lista d'Attesa", href: "#lista-attesa" }
     : { label: "Prezzi", href: "#prezzi" },
   { label: "FAQ", href: "#faq" },
 ]
 
+function resolveHref(link: NavLink, pathname: string) {
+  if (link.isRoute) return link.href
+  if (pathname === "/") return link.href
+  return `/${link.href}`
+}
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+
+  const ctaAnchor = isWaitlist ? "#lista-attesa" : "#prezzi"
+  const ctaHref = pathname === "/" ? ctaAnchor : `/${ctaAnchor}`
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -31,7 +45,7 @@ export function Navbar() {
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
-                href={link.href}
+                href={resolveHref(link, pathname)}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
@@ -43,11 +57,11 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {!isWaitlist && (
             <Button variant="ghost" size="sm" asChild>
-              <Link href="#prezzi">Accedi</Link>
+              <Link href={ctaHref}>Accedi</Link>
             </Button>
           )}
           <Button size="sm" asChild>
-            <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"}>
+            <Link href={ctaHref}>
               {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
             </Link>
           </Button>
@@ -68,7 +82,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
-                  href={link.href}
+                  href={resolveHref(link, pathname)}
                   className="block text-base font-medium text-foreground"
                   onClick={() => setMobileOpen(false)}
                 >
@@ -80,11 +94,11 @@ export function Navbar() {
           <div className="mt-6 flex flex-col gap-3">
             {!isWaitlist && (
               <Button variant="outline" asChild>
-                <Link href="#prezzi" onClick={() => setMobileOpen(false)}>Accedi</Link>
+                <Link href={ctaHref} onClick={() => setMobileOpen(false)}>Accedi</Link>
               </Button>
             )}
             <Button asChild>
-              <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"} onClick={() => setMobileOpen(false)}>
+              <Link href={ctaHref} onClick={() => setMobileOpen(false)}>
                 {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
               </Link>
             </Button>

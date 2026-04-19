@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { Toaster } from 'sonner'
 import { CookieConsentProvider } from '@/components/cookie-consent-provider'
 import { Analytics } from '@/components/analytics'
 import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+import { DisableDraftMode } from '@/components/disable-draft-mode'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -102,11 +105,13 @@ export const viewport: Viewport = {
   maximumScale: 5,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { isEnabled: isDraftMode } = await draftMode()
+
   return (
     <html lang="it" className={`${dmSans.variable} ${dmSerif.variable}`}>
       <body className="font-sans antialiased">
@@ -115,6 +120,12 @@ export default function RootLayout({
           <Toaster position="top-center" richColors />
           <Analytics />
           <CookieConsentBanner />
+          {isDraftMode && (
+            <>
+              <VisualEditing />
+              <DisableDraftMode />
+            </>
+          )}
         </CookieConsentProvider>
       </body>
     </html>
