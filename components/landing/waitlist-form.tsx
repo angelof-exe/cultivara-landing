@@ -1,13 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import emailjs from "@emailjs/browser"
 import { Send, CheckCircle2, Loader2 } from "lucide-react"
 import { toast } from "sonner"
-import { trackWaitlistSubmission } from "@/lib/analytics"
+import {
+  trackFormStart,
+  trackFormFieldError,
+  trackFormSubmitAttempt,
+  trackFormSubmitSuccess,
+  trackFormSubmitError,
+  trackFormAbandoned,
+  type FormFieldErrorType,
+} from "@/lib/analytics"
+import { session } from "@/lib/session-tracker"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -20,6 +29,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+const FORM_ID = "waitlist"
+
 const waitlistSchema = z.object({
   nome: z.string().min(2, "Il nome deve avere almeno 2 caratteri"),
   cognome: z.string().min(2, "Il cognome deve avere almeno 2 caratteri"),
@@ -30,6 +41,25 @@ const waitlistSchema = z.object({
 })
 
 type WaitlistFormValues = z.infer<typeof waitlistSchema>
+
+type FieldName = keyof WaitlistFormValues
+
+const FIELD_NAMES: FieldName[] = [
+  "nome",
+  "cognome",
+  "email",
+  "telefono",
+  "nomeAzienda",
+  "messaggio",
+]
+
+function categorizeZodError(fieldName: FieldName, message: string): FormFieldErrorType {
+  if (fieldName === "email") return "invalid_email"
+  if (/almeno\s+\d+\s+caratteri/i.test(message)) return "too_short"
+  if (/non\s+pu[oò]\s+superare/i.test(message)) return "too_long"
+  if (/obbligatorio|required/i.test(message)) return "required"
+  return "invalid"
+}
 
 export function WaitlistForm() {
   const [submitted, setSubmitted] = useState(false)
@@ -48,16 +78,92 @@ export function WaitlistForm() {
 
   const { isSubmitting } = form.formState
 
+  const formStartedRef = useRef(false)
+  const formStartTsRef = useRef<number | null>(null)
+  const lastInteractedFieldRef = useRef<string>("")
+  const fieldsCompletedRef = useRef<Set<string>>(new Set())
+  const submitSucceededRef = useRef(false)
+
+  const resetFormSession = () => {
+    formStartedRef.current = false
+    formStartTsRef.current = null
+    lastInteractedFieldRef.current = ""
+    fieldsCompletedRef.current = new Set()
+    submitSucceededRef.current = false
+  }
+
+  const handleFieldFocus = (fieldName: FieldName) => {
+    lastInteractedFieldRef.current = fieldName
+    if (!formStartedRef.current) {
+      formStartedRef.current = true
+      formStartTsRef.current = Date.now()
+      trackFormStart(FORM_ID)
+    }
+  }
+
+  const handleFieldBlur = (fieldName: FieldName) => {
+    const value = form.getValues(fieldName)
+    const fieldError = form.formState.errors[fieldName]
+    const hasValue = typeof value === "string" && value.trim().length > 0
+
+    if (fieldError?.message) {
+      trackFormFieldError(
+        FORM_ID,
+        fieldName,
+        categorizeZodError(fieldName, fieldError.message)
+      )
+    } else if (hasValue) {
+      fieldsCompletedRef.current.add(fieldName)
+    }
+  }
+
+  useEffect(() => {
+    const checkAbandon = () => {
+      if (!formStartedRef.current || submitSucceededRef.current) return
+      const startedAt = formStartTsRef.current ?? Date.now()
+      trackFormAbandoned(
+        FORM_ID,
+        lastInteractedFieldRef.current || "unknown",
+        fieldsCompletedRef.current.size,
+        Date.now() - startedAt
+      )
+      // Prevent duplicate fire on pagehide after visibilitychange
+      submitSucceededRef.current = true
+    }
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") checkAbandon()
+    }
+
+    window.addEventListener("beforeunload", checkAbandon)
+    document.addEventListener("visibilitychange", onVisibilityChange)
+
+    return () => {
+      window.removeEventListener("beforeunload", checkAbandon)
+      document.removeEventListener("visibilitychange", onVisibilityChange)
+    }
+  }, [])
+
   async function onSubmit(data: WaitlistFormValues) {
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
     const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 
+    const startedAt = formStartTsRef.current ?? Date.now()
+    const filledCount = FIELD_NAMES.filter((name) => {
+      const v = data[name]
+      return typeof v === "string" && v.trim().length > 0
+    }).length
+
+    trackFormSubmitAttempt(FORM_ID, filledCount, Date.now() - startedAt)
+
     if (!serviceId || !templateId || !publicKey) {
+      trackFormSubmitError(FORM_ID, "config_missing")
       toast.error("Configurazione email mancante. Riprova più tardi.")
       return
     }
 
+    const utm = session.getUtm()
     try {
       await emailjs.send(serviceId, templateId, {
         nome: data.nome,
@@ -66,13 +172,19 @@ export function WaitlistForm() {
         telefono: data.telefono || "Non fornito",
         nomeAzienda: data.nomeAzienda || "Non fornita",
         messaggio: data.messaggio || "Nessun messaggio",
+        utm_source: utm?.utm_source ?? "direct",
+        utm_medium: utm?.utm_medium ?? "none",
+        utm_campaign: utm?.utm_campaign ?? "none",
+        referrer: utm?.referrer ?? "direct",
       }, publicKey)
 
-      trackWaitlistSubmission()
+      submitSucceededRef.current = true
+      trackFormSubmitSuccess(FORM_ID, Date.now() - startedAt)
       setSubmitted(true)
       toast.success("Richiesta inviata con successo!")
       form.reset()
     } catch {
+      trackFormSubmitError(FORM_ID, "network")
       toast.error("Errore nell'invio. Riprova più tardi.")
     }
   }
@@ -110,7 +222,10 @@ export function WaitlistForm() {
                 <Button
                   variant="outline"
                   className="mt-4"
-                  onClick={() => setSubmitted(false)}
+                  onClick={() => {
+                    resetFormSession()
+                    setSubmitted(false)
+                  }}
                 >
                   Invia un{"'"}altra richiesta
                 </Button>
@@ -127,7 +242,15 @@ export function WaitlistForm() {
                         <FormItem>
                           <FormLabel>Nome *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Mario" {...field} />
+                            <Input
+                              placeholder="Mario"
+                              {...field}
+                              onFocus={() => handleFieldFocus("nome")}
+                              onBlur={() => {
+                                field.onBlur()
+                                handleFieldBlur("nome")
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -140,7 +263,15 @@ export function WaitlistForm() {
                         <FormItem>
                           <FormLabel>Cognome *</FormLabel>
                           <FormControl>
-                            <Input placeholder="Rossi" {...field} />
+                            <Input
+                              placeholder="Rossi"
+                              {...field}
+                              onFocus={() => handleFieldFocus("cognome")}
+                              onBlur={() => {
+                                field.onBlur()
+                                handleFieldBlur("cognome")
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -156,7 +287,16 @@ export function WaitlistForm() {
                       <FormItem>
                         <FormLabel>Email *</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="mario.rossi@email.it" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="mario.rossi@email.it"
+                            {...field}
+                            onFocus={() => handleFieldFocus("email")}
+                            onBlur={() => {
+                              field.onBlur()
+                              handleFieldBlur("email")
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -172,7 +312,16 @@ export function WaitlistForm() {
                         <FormItem>
                           <FormLabel>Telefono</FormLabel>
                           <FormControl>
-                            <Input type="tel" placeholder="+39 333 1234567" {...field} />
+                            <Input
+                              type="tel"
+                              placeholder="+39 333 1234567"
+                              {...field}
+                              onFocus={() => handleFieldFocus("telefono")}
+                              onBlur={() => {
+                                field.onBlur()
+                                handleFieldBlur("telefono")
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -185,7 +334,15 @@ export function WaitlistForm() {
                         <FormItem>
                           <FormLabel>Nome Azienda</FormLabel>
                           <FormControl>
-                            <Input placeholder="Azienda Agricola Rossi" {...field} />
+                            <Input
+                              placeholder="Azienda Agricola Rossi"
+                              {...field}
+                              onFocus={() => handleFieldFocus("nomeAzienda")}
+                              onBlur={() => {
+                                field.onBlur()
+                                handleFieldBlur("nomeAzienda")
+                              }}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -205,6 +362,11 @@ export function WaitlistForm() {
                             placeholder="Raccontaci della tua azienda o delle tue esigenze..."
                             rows={4}
                             {...field}
+                            onFocus={() => handleFieldFocus("messaggio")}
+                            onBlur={() => {
+                              field.onBlur()
+                              handleFieldBlur("messaggio")
+                            }}
                           />
                         </FormControl>
                         <FormMessage />

@@ -5,6 +5,9 @@ import { Toaster } from 'sonner'
 import { CookieConsentProvider } from '@/components/cookie-consent-provider'
 import { Analytics } from '@/components/analytics'
 import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+import { UtmCapture } from '@/components/utm-capture'
+import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
+import { TimeTracker } from '@/components/time-tracker'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -114,6 +117,9 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" richColors />
           <Analytics />
+          <UtmCapture />
+          <ScrollDepthTracker />
+          <TimeTracker />
           <CookieConsentBanner />
         </CookieConsentProvider>
       </body>

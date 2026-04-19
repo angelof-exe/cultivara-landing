@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { TrackedLink } from "@/components/tracked-link"
 import { isWaitlist } from "@/lib/config"
 
 const navLinks = [
@@ -19,23 +19,35 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const primaryCtaHref = isWaitlist ? "#lista-attesa" : "#prezzi"
+  const primaryCtaLabel = isWaitlist ? "waitlist" : "inizia_gratis"
+  const primaryCtaText = isWaitlist ? "Iscriviti" : "Inizia Gratis"
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-2" aria-label="Cultivara home">
+        <TrackedLink
+          href="/"
+          className="flex items-center gap-2"
+          aria-label="Cultivara home"
+          eventName="nav_click"
+          eventParams={{ location: "navbar", target: "logo" }}
+        >
           <Image src="/logo.svg" alt="Cultivara logo" width={36} height={36} className="h-9 w-9" />
           <span className="font-serif text-xl text-foreground">Cultivara</span>
-        </Link>
+        </TrackedLink>
 
         <ul className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link
+              <TrackedLink
                 href={link.href}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                eventName="nav_click"
+                eventParams={{ location: "navbar", target: link.href }}
               >
                 {link.label}
-              </Link>
+              </TrackedLink>
             </li>
           ))}
         </ul>
@@ -43,13 +55,23 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {!isWaitlist && (
             <Button variant="ghost" size="sm" asChild>
-              <Link href="#prezzi">Accedi</Link>
+              <TrackedLink
+                href="#prezzi"
+                eventName="cta_click"
+                eventParams={{ location: "navbar", label: "accedi" }}
+              >
+                Accedi
+              </TrackedLink>
             </Button>
           )}
           <Button size="sm" asChild>
-            <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"}>
-              {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
-            </Link>
+            <TrackedLink
+              href={primaryCtaHref}
+              eventName="cta_click"
+              eventParams={{ location: "navbar", label: primaryCtaLabel }}
+            >
+              {primaryCtaText}
+            </TrackedLink>
           </Button>
         </div>
 
@@ -67,26 +89,40 @@ export function Navbar() {
           <ul className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <Link
+                <TrackedLink
                   href={link.href}
                   className="block text-base font-medium text-foreground"
+                  eventName="nav_click"
+                  eventParams={{ location: "navbar_mobile", target: link.href }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
-                </Link>
+                </TrackedLink>
               </li>
             ))}
           </ul>
           <div className="mt-6 flex flex-col gap-3">
             {!isWaitlist && (
               <Button variant="outline" asChild>
-                <Link href="#prezzi" onClick={() => setMobileOpen(false)}>Accedi</Link>
+                <TrackedLink
+                  href="#prezzi"
+                  eventName="cta_click"
+                  eventParams={{ location: "navbar_mobile", label: "accedi" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Accedi
+                </TrackedLink>
               </Button>
             )}
             <Button asChild>
-              <Link href={isWaitlist ? "#lista-attesa" : "#prezzi"} onClick={() => setMobileOpen(false)}>
-                {isWaitlist ? "Iscriviti" : "Inizia Gratis"}
-              </Link>
+              <TrackedLink
+                href={primaryCtaHref}
+                eventName="cta_click"
+                eventParams={{ location: "navbar_mobile", label: primaryCtaLabel }}
+                onClick={() => setMobileOpen(false)}
+              >
+                {primaryCtaText}
+              </TrackedLink>
             </Button>
           </div>
         </div>

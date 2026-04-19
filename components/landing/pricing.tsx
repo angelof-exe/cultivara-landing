@@ -1,12 +1,13 @@
-import Link from "next/link"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { TrackedLink, TrackedAnchor } from "@/components/tracked-link"
 import { cn } from "@/lib/utils"
 
 const plans = [
   {
     name: "Free",
+    slug: "free",
     description: "Per iniziare subito, senza costi",
     price: "0",
     period: "per sempre",
@@ -21,6 +22,7 @@ const plans = [
   },
   {
     name: "Pro",
+    slug: "pro",
     description: "Per aziende agricole medie",
     price: "9,90",
     period: "/mese",
@@ -41,6 +43,7 @@ const plans = [
   },
   {
     name: "Premium",
+    slug: "premium",
     description: "Per aziende grandi e strutturate",
     price: "24,90",
     period: "/mese",
@@ -113,7 +116,13 @@ export function Pricing() {
                 size="lg"
                 asChild
               >
-                <Link href="#inizia">{plan.cta}</Link>
+                <TrackedLink
+                  href="#inizia"
+                  eventName="cta_click"
+                  eventParams={{ location: "pricing", label: plan.slug }}
+                >
+                  {plan.cta}
+                </TrackedLink>
               </Button>
 
               <ul className="mt-8 flex flex-col gap-3" role="list">
@@ -140,7 +149,13 @@ export function Pricing() {
             Onboarding dedicato, SLA garantito e fatturazione personalizzata.
           </p>
           <Button variant="outline" className="mt-4" asChild>
-            <Link href="mailto:info@cultivara.it">Richiedi un Preventivo</Link>
+            <TrackedAnchor
+              href="mailto:info@cultivara.it"
+              eventName="mailto_click"
+              eventParams={{ location: "pricing_caa" }}
+            >
+              Richiedi un Preventivo
+            </TrackedAnchor>
           </Button>
         </div>
       </div>
