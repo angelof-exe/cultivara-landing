@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typegen": "sanity schema extract --path=sanity/schema.json && sanity typegen generate"
+    "typegen:extract": "dotenv -e .env -- sanity schema extract --path=sanity/schema.json",
+    "typegen:generate": "dotenv -e .env -- sanity typegen generate",
+    "typegen": "pnpm typegen:extract && pnpm typegen:generate"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -74,6 +76,7 @@
     "@types/node": "^22",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "dotenv-cli": "^11.0.0",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "5.7.3"
