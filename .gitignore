@@ -8,3 +8,4 @@
 /sanity/schema.json
 /sanity/types.ts
 /.sanity
+tsconfig.tsbuildinfo
