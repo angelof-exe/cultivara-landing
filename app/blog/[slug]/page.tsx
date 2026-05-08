@@ -8,6 +8,7 @@ import { PostBody } from "@/components/blog/post-body"
 import { PostToc } from "@/components/blog/post-toc"
 import { RelatedPosts } from "@/components/blog/related-posts"
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker"
+import { ArticleReadTracker } from "@/components/blog/article-read-tracker"
 import { sanityFetch } from "@/sanity/lib/live"
 import { client } from "@/sanity/lib/client"
 import { urlFor } from "@/sanity/lib/image"
@@ -131,12 +132,12 @@ export default async function PostPage({ params }: Props) {
         />
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[minmax(0,1fr)_15rem]">
           <article className="min-w-0 max-w-3xl">
-            <PostToc items={toc} variant="mobile" />
+            <PostToc items={toc} variant="mobile" slug={slug} />
             <PostBody value={enrichedBody} />
           </article>
           <aside className="hidden lg:block">
             <div className="sticky top-24">
-              <PostToc items={toc} variant="desktop" />
+              <PostToc items={toc} variant="desktop" slug={slug} />
             </div>
           </aside>
         </div>
@@ -155,7 +156,18 @@ export default async function PostPage({ params }: Props) {
         />
       </main>
       <Footer />
-      <BlogViewTracker event="blog_post_view" params={{ slug }} />
+      <BlogViewTracker
+        event="blog_post_view"
+        params={{
+          slug,
+          title: post.title ?? "",
+          ...(post.author?.name ? { author: post.author.name } : {}),
+          ...(post.categories?.[0]?.slug
+            ? { primary_category: post.categories[0].slug }
+            : {}),
+        }}
+      />
+      <ArticleReadTracker slug={slug} title={post.title ?? ""} />
     </>
   )
 }
