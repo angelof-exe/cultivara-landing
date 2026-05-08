@@ -37,6 +37,13 @@ export const POSTS_COUNT_QUERY = defineQuery(`
   count(*[_type == "post" && defined(slug.current)])
 `)
 
+export const LATEST_POSTS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)]
+    | order(publishedAt desc) [0...$limit] {
+    ${POST_FIELDS_LIST}
+  }
+`)
+
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     ${POST_FIELDS_FULL}

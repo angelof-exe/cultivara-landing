@@ -9,6 +9,7 @@ import { Pricing } from "@/components/landing/pricing"
 import { WaitlistForm } from "@/components/landing/waitlist-form"
 import { Faq } from "@/components/landing/faq"
 import { Cta } from "@/components/landing/cta"
+import { BlogPreview } from "@/components/landing/blog-preview"
 import { Footer } from "@/components/landing/footer"
 import { StructuredData } from "@/components/landing/structured-data"
 import { SectionViewTracker } from "@/components/section-view-tracker"
@@ -25,6 +26,7 @@ export default function Page() {
         <HowItWorks />
         <Compliance />
         {isWaitlist ? <WaitlistForm /> : <Pricing />}
+        <BlogPreview />
         <Faq />
         <Cta />
       </main>
