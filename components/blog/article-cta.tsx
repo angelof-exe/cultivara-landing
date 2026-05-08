@@ -1,0 +1,76 @@
+import { ArrowRight, Sparkles } from "lucide-react"
+
+import { TrackedLink } from "@/components/tracked-link"
+import { isWaitlist } from "@/lib/config"
+
+type Props = {
+  variant?: "inline" | "final"
+  slug?: string
+}
+
+export function ArticleCta({ variant = "final", slug }: Props) {
+  const targetHref = isWaitlist ? "/#lista-attesa" : "/#prezzi"
+  const ctaLabel = isWaitlist ? "Iscriviti gratis" : "Inizia gratis"
+  const eventLocation = variant === "inline" ? "article_inline" : "article_final"
+  const eventLabel = isWaitlist ? "waitlist" : "inizia_gratis"
+
+  if (variant === "inline") {
+    return (
+      <aside className="my-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
+        <div className="flex items-start gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+            <Sparkles className="h-5 w-5 text-primary" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-serif text-xl text-foreground">
+              Vuoi essere pronto al 1° gennaio 2027?
+            </p>
+            <p className="mt-2 text-pretty leading-relaxed text-muted-foreground">
+              Cultivara è il quaderno di campagna digitale già conforme alla
+              normativa. Iscriviti alla lista d'attesa per essere tra i primi a
+              provarlo — gratis, niente carta di credito.
+            </p>
+            <TrackedLink
+              href={targetHref}
+              className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              eventName="cta_click"
+              eventParams={{
+                location: eventLocation,
+                label: eventLabel,
+                ...(slug ? { slug } : {}),
+              }}
+            >
+              {ctaLabel}
+              <ArrowRight className="h-4 w-4" />
+            </TrackedLink>
+          </div>
+        </div>
+      </aside>
+    )
+  }
+
+  return (
+    <aside className="mt-16 overflow-hidden rounded-2xl bg-primary px-6 py-12 text-center sm:px-12 sm:py-16">
+      <p className="text-balance font-serif text-2xl text-primary-foreground sm:text-3xl">
+        Hai trovato utile questo articolo?
+      </p>
+      <p className="mx-auto mt-3 max-w-2xl text-pretty leading-relaxed text-primary-foreground/85">
+        Iscriviti alla lista d'attesa di Cultivara: avrai accesso anticipato al
+        quaderno di campagna digitale e riceverai guide come questa via email.
+      </p>
+      <TrackedLink
+        href={targetHref}
+        className="mt-6 inline-flex items-center gap-1.5 rounded-md bg-primary-foreground px-6 py-3 text-base font-medium text-primary transition-colors hover:bg-primary-foreground/90"
+        eventName="cta_click"
+        eventParams={{
+          location: eventLocation,
+          label: eventLabel,
+          ...(slug ? { slug } : {}),
+        }}
+      >
+        {ctaLabel}
+        <ArrowRight className="h-4 w-4" />
+      </TrackedLink>
+    </aside>
+  )
+}

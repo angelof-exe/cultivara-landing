@@ -7,12 +7,13 @@ import { PostHero } from "@/components/blog/post-hero"
 import { PostBody } from "@/components/blog/post-body"
 import { PostToc } from "@/components/blog/post-toc"
 import { RelatedPosts } from "@/components/blog/related-posts"
+import { ArticleCta } from "@/components/blog/article-cta"
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker"
 import { ArticleReadTracker } from "@/components/blog/article-read-tracker"
 import { sanityFetch } from "@/sanity/lib/live"
 import { client } from "@/sanity/lib/client"
 import { urlFor } from "@/sanity/lib/image"
-import { enrichHeadingBlocks } from "@/lib/portable-text-utils"
+import { enrichHeadingBlocks, splitBodyAtMidpoint } from "@/lib/portable-text-utils"
 import {
   POST_QUERY,
   POST_SEO_QUERY,
@@ -90,6 +91,7 @@ export default async function PostPage({ params }: Props) {
   if (!post) notFound()
 
   const { blocks: enrichedBody, toc } = enrichHeadingBlocks(post.body)
+  const { first: bodyBeforeCta, second: bodyAfterCta } = splitBodyAtMidpoint(enrichedBody)
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -133,7 +135,14 @@ export default async function PostPage({ params }: Props) {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[minmax(0,1fr)_15rem]">
           <article className="min-w-0 max-w-3xl">
             <PostToc items={toc} variant="mobile" slug={slug} />
-            <PostBody value={enrichedBody} />
+            <PostBody value={bodyBeforeCta} />
+            {bodyAfterCta.length > 0 ? (
+              <>
+                <ArticleCta variant="inline" slug={slug} />
+                <PostBody value={bodyAfterCta} />
+              </>
+            ) : null}
+            <ArticleCta variant="final" slug={slug} />
           </article>
           <aside className="hidden lg:block">
             <div className="sticky top-24">

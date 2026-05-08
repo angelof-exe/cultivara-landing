@@ -28,6 +28,38 @@ export function slugifyHeading(text: string): string {
 
 type EnrichedBlock = PortableTextBlock & { _toc_id?: string }
 
+const MIN_BLOCKS_FOR_INLINE_CTA = 6
+
+/**
+ * Splits a body of Portable Text blocks roughly in half, cutting on the
+ * first H2/H3 at or after the midpoint so the seam falls on a natural
+ * section boundary. Returns empty `second` when the body is too short
+ * for an inline CTA — caller should skip rendering it in that case.
+ */
+export function splitBodyAtMidpoint<T extends PortableTextBlock>(
+  blocks: T[] | null | undefined
+): { first: T[]; second: T[] } {
+  if (!Array.isArray(blocks) || blocks.length < MIN_BLOCKS_FOR_INLINE_CTA) {
+    return { first: blocks ?? [], second: [] }
+  }
+  const target = Math.floor(blocks.length / 2)
+  let cutIndex = -1
+  for (let i = target; i < blocks.length; i++) {
+    const b = blocks[i]
+    if (b && b._type === "block" && (b.style === "h2" || b.style === "h3")) {
+      cutIndex = i
+      break
+    }
+  }
+  if (cutIndex === -1) {
+    return { first: blocks, second: [] }
+  }
+  return {
+    first: blocks.slice(0, cutIndex),
+    second: blocks.slice(cutIndex),
+  }
+}
+
 export function enrichHeadingBlocks(
   blocks: PortableTextBlock[] | null | undefined
 ): { blocks: EnrichedBlock[]; toc: TocItem[] } {
