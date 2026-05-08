@@ -37,12 +37,22 @@ const components: PortableTextComponents = {
   },
   block: {
     normal: ({ children }) => <p className="my-5 leading-relaxed text-foreground/90">{children}</p>,
-    h2: ({ children }) => (
-      <h2 className="mt-12 mb-4 font-serif text-3xl text-foreground">{children}</h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="mt-8 mb-3 font-serif text-2xl text-foreground">{children}</h3>
-    ),
+    h2: ({ children, value }) => {
+      const id = (value as { _toc_id?: string })?._toc_id
+      return (
+        <h2 id={id} className="scroll-mt-24 mt-12 mb-4 font-serif text-3xl text-foreground">
+          {children}
+        </h2>
+      )
+    },
+    h3: ({ children, value }) => {
+      const id = (value as { _toc_id?: string })?._toc_id
+      return (
+        <h3 id={id} className="scroll-mt-24 mt-8 mb-3 font-serif text-2xl text-foreground">
+          {children}
+        </h3>
+      )
+    },
     h4: ({ children }) => (
       <h4 className="mt-6 mb-2 font-serif text-xl text-foreground">{children}</h4>
     ),

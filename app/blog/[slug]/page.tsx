@@ -5,11 +5,13 @@ import { Navbar } from "@/components/landing/navbar"
 import { Footer } from "@/components/landing/footer"
 import { PostHero } from "@/components/blog/post-hero"
 import { PostBody } from "@/components/blog/post-body"
+import { PostToc } from "@/components/blog/post-toc"
 import { RelatedPosts } from "@/components/blog/related-posts"
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker"
 import { sanityFetch } from "@/sanity/lib/live"
 import { client } from "@/sanity/lib/client"
 import { urlFor } from "@/sanity/lib/image"
+import { enrichHeadingBlocks } from "@/lib/portable-text-utils"
 import {
   POST_QUERY,
   POST_SEO_QUERY,
@@ -86,6 +88,8 @@ export default async function PostPage({ params }: Props) {
 
   if (!post) notFound()
 
+  const { blocks: enrichedBody, toc } = enrichHeadingBlocks(post.body)
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -125,9 +129,17 @@ export default async function PostPage({ params }: Props) {
           author={post.author}
           categories={post.categories}
         />
-        <article className="mx-auto max-w-3xl px-6 py-12">
-          <PostBody value={post.body} />
-        </article>
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[minmax(0,1fr)_15rem]">
+          <article className="min-w-0 max-w-3xl">
+            <PostToc items={toc} variant="mobile" />
+            <PostBody value={enrichedBody} />
+          </article>
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <PostToc items={toc} variant="desktop" />
+            </div>
+          </aside>
+        </div>
         <RelatedPosts
           posts={(post.relatedPosts ?? [])
             .filter((p): p is NonNullable<typeof p> => Boolean(p?.slug))
