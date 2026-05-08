@@ -44,6 +44,26 @@ export const LATEST_POSTS_QUERY = defineQuery(`
   }
 `)
 
+export const SEARCH_POSTS_QUERY = defineQuery(`
+  *[
+    _type == "post"
+    && defined(slug.current)
+    && ($q == "" || title match ($q + "*") || excerpt match ($q + "*"))
+    && ($category == "" || $category in categories[]->slug.current)
+  ] | order(publishedAt desc) [$start...$end] {
+    ${POST_FIELDS_LIST}
+  }
+`)
+
+export const SEARCH_POSTS_COUNT_QUERY = defineQuery(`
+  count(*[
+    _type == "post"
+    && defined(slug.current)
+    && ($q == "" || title match ($q + "*") || excerpt match ($q + "*"))
+    && ($category == "" || $category in categories[]->slug.current)
+  ])
+`)
+
 export const POST_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0] {
     ${POST_FIELDS_FULL}
