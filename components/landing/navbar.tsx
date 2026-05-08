@@ -1,27 +1,44 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { TrackedLink } from "@/components/tracked-link"
 import { isWaitlist } from "@/lib/config"
 
-const navLinks = [
-  { label: "Funzionalit\u00e0", href: "#funzionalita" },
+type NavLink = { label: string; href: string; isRoute?: boolean }
+
+const navLinks: NavLink[] = [
+  { label: "Funzionalità", href: "#funzionalita" },
   { label: "Come Funziona", href: "#come-funziona" },
+  { label: "Blog", href: "/blog", isRoute: true },
   isWaitlist
     ? { label: "Lista d'Attesa", href: "#lista-attesa" }
     : { label: "Prezzi", href: "#prezzi" },
   { label: "FAQ", href: "#faq" },
 ]
 
+function resolveHref(link: NavLink, pathname: string) {
+  if (link.isRoute) return link.href
+  if (pathname === "/") return link.href
+  return `/${link.href}`
+}
+
+function resolveAnchor(anchor: string, pathname: string) {
+  return pathname === "/" ? anchor : `/${anchor}`
+}
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
 
-  const primaryCtaHref = isWaitlist ? "#lista-attesa" : "#prezzi"
+  const primaryCtaAnchor = isWaitlist ? "#lista-attesa" : "#prezzi"
+  const primaryCtaHref = resolveAnchor(primaryCtaAnchor, pathname)
   const primaryCtaLabel = isWaitlist ? "waitlist" : "inizia_gratis"
   const primaryCtaText = isWaitlist ? "Iscriviti" : "Inizia Gratis"
+  const accediHref = resolveAnchor("#prezzi", pathname)
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -41,7 +58,7 @@ export function Navbar() {
           {navLinks.map((link) => (
             <li key={link.href}>
               <TrackedLink
-                href={link.href}
+                href={resolveHref(link, pathname)}
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 eventName="nav_click"
                 eventParams={{ location: "navbar", target: link.href }}
@@ -56,7 +73,7 @@ export function Navbar() {
           {!isWaitlist && (
             <Button variant="ghost" size="sm" asChild>
               <TrackedLink
-                href="#prezzi"
+                href={accediHref}
                 eventName="cta_click"
                 eventParams={{ location: "navbar", label: "accedi" }}
               >
@@ -90,7 +107,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <li key={link.href}>
                 <TrackedLink
-                  href={link.href}
+                  href={resolveHref(link, pathname)}
                   className="block text-base font-medium text-foreground"
                   eventName="nav_click"
                   eventParams={{ location: "navbar_mobile", target: link.href }}
@@ -105,7 +122,7 @@ export function Navbar() {
             {!isWaitlist && (
               <Button variant="outline" asChild>
                 <TrackedLink
-                  href="#prezzi"
+                  href={accediHref}
                   eventName="cta_click"
                   eventParams={{ location: "navbar_mobile", label: "accedi" }}
                   onClick={() => setMobileOpen(false)}

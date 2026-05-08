@@ -44,7 +44,7 @@ const complianceLinks: FooterLink[] = [
     eventName: "compliance_link_click",
     eventParams: { destination: "guida_agea" },
   },
-  { label: "Blog", href: "#" },
+  { label: "Blog", href: "/blog" },
 ]
 
 const productLinks: FooterLink[] = [

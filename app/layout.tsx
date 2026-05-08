@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
 
 import { Toaster } from 'sonner'
 import { CookieConsentProvider } from '@/components/cookie-consent-provider'
 import { Analytics } from '@/components/analytics'
 import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+import { DisableDraftMode } from '@/components/disable-draft-mode'
 import { UtmCapture } from '@/components/utm-capture'
 import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { TimeTracker } from '@/components/time-tracker'
@@ -73,7 +76,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
-      'Il quaderno di campagna digitale più semplice d\u2019Italia. 10 sezioni AGEA, 15 controlli automatici, magazzino e costi.',
+      'Il quaderno di campagna digitale più semplice d’Italia. 10 sezioni AGEA, 15 controlli automatici, magazzino e costi.',
     type: 'website',
     locale: 'it_IT',
     siteName: 'Cultivara',
@@ -81,7 +84,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/logo.svg',
-        alt: 'Cultivara \u2014 Quaderno di Campagna Digitale',
+        alt: 'Cultivara — Quaderno di Campagna Digitale',
       },
     ],
   },
@@ -89,7 +92,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
-      'Il quaderno di campagna digitale pi\u00f9 semplice d\u2019Italia. Conforme AGEA, SIAN e Regolamento UE 2023/564.',
+      'Il quaderno di campagna digitale più semplice d’Italia. Conforme AGEA, SIAN e Regolamento UE 2023/564.',
     images: ['/logo.svg'],
   },
   alternates: {
@@ -105,11 +108,13 @@ export const viewport: Viewport = {
   maximumScale: 5,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const { isEnabled: isDraftMode } = await draftMode()
+
   return (
     <html lang="it" className={`${dmSans.variable} ${dmSerif.variable}`}>
       <body className="font-sans antialiased">
@@ -121,6 +126,12 @@ export default function RootLayout({
           <ScrollDepthTracker />
           <TimeTracker />
           <CookieConsentBanner />
+          {isDraftMode && (
+            <>
+              <VisualEditing />
+              <DisableDraftMode />
+            </>
+          )}
         </CookieConsentProvider>
       </body>
     </html>
