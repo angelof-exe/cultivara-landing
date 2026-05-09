@@ -244,6 +244,10 @@ Crea queste 4 audience **prima** di lanciare campagne. Vai a **Ads Manager → A
 |---|---|---|---|---|
 | `Blog_Readers_30d` | Website | URL contains `/blog/` | 30 giorni | Audience principale Stage 2 |
 | `Blog_Completers_30d` | Website | Custom event = `blog_post_read_progress` AND `progress >= 75` | 30 giorni | Audience alta intenzione, ROAS più alto |
+| `CTA_Seen_NotClicked_30d` | Website | Custom event = `blog_cta_view` ESCLUDE chi ha `cta_click` con `location=article_*` | 30 giorni | Retargeting chirurgico: hanno *visto* il CTA, non cliccato. Creative diverso (testimonial, urgenza) |
+| `Article_Sharers_30d` | Website | Custom event = `blog_post_share` | 30 giorni | Community-affine, lookalike di alta qualità |
+| `Multi_Article_Readers_30d` | Website | Custom event = `related_post_click` | 30 giorni | Multi-touch readers — convertono 3-5× meglio |
+| `Compliance_Clickers_30d` | Website | Custom event in [`compliance_link_click`, `blog_body_link_click`] | 30 giorni | Alta intenzione regulatory — usa creative deadline 2027 |
 | `Form_Viewers_30d` | Website | Custom event = `ViewContent` AND `content_name = waitlist_form` | 30 giorni | Retargeting BOFU diretto su chi ha visto il form |
 | `Leads_Lifetime` | Website | Standard event = `Lead` | 180 giorni | Lista esclusione per ogni adset Stage 1 e Stage 2 |
 
@@ -278,9 +282,14 @@ Il Pixel di Cultivara invia molti eventi (vedi [TRACKING_ANALYTICS.md](./TRACKIN
 | Evento | Parametri | Custom Audience suggerita |
 |---|---|---|
 | `blog_post_view` | `slug, title, primary_category` | "Lettori di un articolo specifico" (filtra per slug) |
-| `blog_post_read_progress` | `progress (25/50/75/100)` | "Lettori completi" (`progress=75` o `100`) |
-| `blog_post_read_time` | `seconds (30/60/120/300)` | "Lettori engagement profondo" (`seconds=120` o `300`) |
-| `cta_click` | `location, label` | "Cliccatori CTA in articolo" (`location=article_inline` OR `article_final`) |
+| `blog_post_read_progress` | `slug, title, progress (25/50/75/100)` | "Lettori completi" (`progress=75` o `100`) |
+| `blog_post_read_time` | `slug, title, seconds (30/60/120/300)` | "Lettori engagement profondo" (`seconds=120` o `300`) |
+| `blog_cta_view` | `slug, location` | "Hanno visto il CTA waitlist, non cliccato" — retarget chirurgico |
+| `cta_click` | `location, label, slug?` | "Cliccatori CTA in articolo" (`location=article_inline` OR `article_final`) |
+| `blog_post_share` | `slug, channel` | "Sharer dei post" — affinità community + alta intenzione |
+| `related_post_click` | `target_slug, source_slug` | "Multi-articolo" — converte 3-5× meglio di lettori single-touch |
+| `blog_search_zero_results` | `query_term, query_length` | Idee editoriali: cosa cercano i lettori e non trovi |
+| `blog_body_link_click` | `href, is_external` | "Cliccatori fonti normative" — alta intenzione regulatory |
 | `compliance_link_click` | `destination` | "Compliance interessati" — alta intenzione b2b agri |
 | `form_start` | `form_id` | "Hanno iniziato il form, non completato" → retarget aggressivo |
 | `faq_open` | `question` | "Lettori FAQ" — engagement moderato, target potenziale |
@@ -493,9 +502,15 @@ Lunedì mattina, 30 minuti, in ordine:
 - [components/cookie-consent-banner.tsx](../components/cookie-consent-banner.tsx) — banner GDPR
 - [lib/analytics.ts](../lib/analytics.ts) — `trackEvent()` + helper standard events
 - [lib/session-tracker.ts](../lib/session-tracker.ts) — first-touch UTM
-- [components/blog/article-cta.tsx](../components/blog/article-cta.tsx) — CTA waitlist negli articoli
+- [components/blog/article-cta.tsx](../components/blog/article-cta.tsx) — CTA waitlist + `blog_cta_view` (IntersectionObserver)
 - [components/blog/article-read-tracker.tsx](../components/blog/article-read-tracker.tsx) — `blog_post_read_progress` + `blog_post_read_time`
-- [components/blog/blog-view-tracker.tsx](../components/blog/blog-view-tracker.tsx) — `blog_post_view`, `blog_list_view`
+- [components/blog/blog-view-tracker.tsx](../components/blog/blog-view-tracker.tsx) — generic page-level event firer (mount-once)
+- [components/blog/post-share-buttons.tsx](../components/blog/post-share-buttons.tsx) — `blog_post_share` con 7 canali
+- [components/blog/post-body.tsx](../components/blog/post-body.tsx) — `blog_body_link_click` su link inline Portable Text
+- [components/blog/post-card.tsx](../components/blog/post-card.tsx) — `post_card_click` (default), override per related/category
+- [components/blog/related-posts.tsx](../components/blog/related-posts.tsx) — `related_post_click`
+- [components/blog/post-toc.tsx](../components/blog/post-toc.tsx) — `blog_toc_click`
+- [components/blog/blog-pagination.tsx](../components/blog/blog-pagination.tsx) — `blog_pagination_click`
 - [components/section-view-tracker.tsx](../components/section-view-tracker.tsx) — `section_view` + Meta `ViewContent` su lista-attesa
 
 **Tool esterni**:

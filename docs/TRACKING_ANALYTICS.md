@@ -100,6 +100,45 @@ Tutti gli eventi sono firati sia su GA4 (`gtag('event', ...)`) sia su Meta Pixel
 | `scroll_depth` | Milestone scroll raggiunta | `depth`: `25 \| 50 \| 75 \| 100` |
 | `time_on_page` | Milestone tempo raggiunta (pausa se tab nascosto) | `seconds`: `15 \| 30 \| 60 \| 180` |
 
+### Eventi blog
+
+Page-level (firano una volta a mount):
+
+| Evento | Trigger | Parametri |
+|---|---|---|
+| `blog_list_view` | Mount di `/blog` | `page`, `query_length`, `category` (or `'all'`) |
+| `blog_post_view` | Mount di `/blog/[slug]` | `slug`, `title`, `author`, `primary_category` |
+| `blog_category_view` | Mount di `/blog/category/[slug]` | `slug` |
+| `blog_search_zero_results` | `/blog` con filtri attivi e 0 risultati | `query_length`, `category`, `query_term` (max 80 char) |
+
+Article engagement (durante la lettura di `/blog/[slug]`):
+
+| Evento | Trigger | Parametri |
+|---|---|---|
+| `blog_post_read_progress` | 25/50/75/100% scrolled within `<article>` (article-specific, NON page-level) | `slug`, `title`, `progress` |
+| `blog_post_read_time` | 30/60/120/300s di lettura *visibile* (pausa su `visibilitychange→hidden`) | `slug`, `title`, `seconds` |
+| `blog_cta_view` | `<ArticleCta>` entra in viewport al 50% (una volta per CTA) | `location`: `'article_inline' \| 'article_final'`, `slug` |
+
+Click events:
+
+| Evento | Trigger | Parametri |
+|---|---|---|
+| `blog_toc_click` | Click su voce dell'indice articolo | `slug`, `target_id`, `level` (`2 \| 3`), `variant` (`'desktop' \| 'mobile'`) |
+| `blog_body_link_click` | Click su link interno al corpo Portable Text | `href`, `is_external` |
+| `blog_post_share` | Click su un canale di condivisione articolo | `slug`, `channel`: `'web_share_api' \| 'facebook' \| 'twitter' \| 'linkedin' \| 'whatsapp' \| 'email' \| 'copy_link'` |
+| `blog_pagination_click` | Click su una voce di paginazione | `from_page`, `to_page`, `direction` (`'prev' \| 'next' \| 'current'`), `base_path` |
+| `post_card_click` | Click su una card articolo (default) | `slug` |
+| `related_post_click` | Click su una card "Articoli correlati" (override del default) | `target_slug`, `source_slug` |
+| `blog_category_click` | Click su un chip categoria dentro una card | `category`, `source_slug` |
+
+Filtri ricerca:
+
+| Evento | Trigger | Parametri |
+|---|---|---|
+| `blog_search_submit` | Submit barra ricerca su `/blog` | `query_length`, `category` |
+| `blog_filter_category` | Cambio categoria nel dropdown | `category` |
+| `blog_filter_clear` | Click "Azzera" filtri | — |
+
 ### Eventi standard GA4 / Meta (non custom)
 
 | Evento | Tool | Trigger |
