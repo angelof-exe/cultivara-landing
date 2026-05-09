@@ -1,5 +1,6 @@
-import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+
+import { TrackedLink } from "@/components/tracked-link"
 
 type BlogPaginationProps = {
   currentPage: number
@@ -23,18 +24,25 @@ export function BlogPagination({ currentPage, totalPages, basePath }: BlogPagina
       aria-label="Paginazione articoli"
     >
       {currentPage > 1 ? (
-        <Link
+        <TrackedLink
           href={href(currentPage - 1)}
           className="inline-flex h-9 items-center gap-1 rounded-md border border-border px-3 text-sm hover:bg-muted"
           aria-label="Pagina precedente"
+          eventName="blog_pagination_click"
+          eventParams={{
+            from_page: currentPage,
+            to_page: currentPage - 1,
+            direction: "prev",
+            base_path: basePath,
+          }}
         >
           <ChevronLeft className="h-4 w-4" />
           Precedente
-        </Link>
+        </TrackedLink>
       ) : null}
 
       {pages.map((page) => (
-        <Link
+        <TrackedLink
           key={page}
           href={href(page)}
           aria-current={page === currentPage ? "page" : undefined}
@@ -43,20 +51,34 @@ export function BlogPagination({ currentPage, totalPages, basePath }: BlogPagina
               ? "inline-flex h-9 w-9 items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground"
               : "inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-sm hover:bg-muted"
           }
+          eventName="blog_pagination_click"
+          eventParams={{
+            from_page: currentPage,
+            to_page: page,
+            direction: page === currentPage ? "current" : page > currentPage ? "next" : "prev",
+            base_path: basePath,
+          }}
         >
           {page}
-        </Link>
+        </TrackedLink>
       ))}
 
       {currentPage < totalPages ? (
-        <Link
+        <TrackedLink
           href={href(currentPage + 1)}
           className="inline-flex h-9 items-center gap-1 rounded-md border border-border px-3 text-sm hover:bg-muted"
           aria-label="Pagina successiva"
+          eventName="blog_pagination_click"
+          eventParams={{
+            from_page: currentPage,
+            to_page: currentPage + 1,
+            direction: "next",
+            base_path: basePath,
+          }}
         >
           Successiva
           <ChevronRight className="h-4 w-4" />
-        </Link>
+        </TrackedLink>
       ) : null}
     </nav>
   )

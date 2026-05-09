@@ -148,6 +148,16 @@ export default async function BlogIndexPage({ searchParams }: Props) {
           category: category || "all",
         }}
       />
+      {hasFilters && total === 0 ? (
+        <BlogViewTracker
+          event="blog_search_zero_results"
+          params={{
+            query_length: q.length,
+            category: category || "none",
+            ...(q ? { query_term: q.slice(0, 80) } : {}),
+          }}
+        />
+      ) : null}
     </>
   )
 }

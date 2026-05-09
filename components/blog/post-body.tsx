@@ -1,9 +1,12 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { PortableText, type PortableTextComponents } from "@portabletext/react"
 import type { PortableTextBlock } from "sanity"
 
 import { urlFor } from "@/sanity/lib/image"
+import { trackEvent } from "@/lib/analytics"
 
 const components: PortableTextComponents = {
   types: {
@@ -74,6 +77,12 @@ const components: PortableTextComponents = {
     link: ({ value, children }) => {
       const href = value?.href ?? "#"
       const isExternal = /^https?:\/\//.test(href) && value?.blank !== false
+      const onClick = () => {
+        trackEvent("blog_body_link_click", {
+          href,
+          is_external: isExternal,
+        })
+      }
       if (isExternal) {
         return (
           <a
@@ -81,13 +90,18 @@ const components: PortableTextComponents = {
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline underline-offset-2 hover:text-primary/80"
+            onClick={onClick}
           >
             {children}
           </a>
         )
       }
       return (
-        <Link href={href} className="text-primary underline underline-offset-2 hover:text-primary/80">
+        <Link
+          href={href}
+          className="text-primary underline underline-offset-2 hover:text-primary/80"
+          onClick={onClick}
+        >
           {children}
         </Link>
       )

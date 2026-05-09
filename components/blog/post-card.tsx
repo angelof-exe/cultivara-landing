@@ -1,8 +1,10 @@
-import Link from "next/link"
 import Image from "next/image"
 import { CalendarDays } from "lucide-react"
 
+import { TrackedLink } from "@/components/tracked-link"
 import { urlFor } from "@/sanity/lib/image"
+
+type EventParams = Record<string, string | number | boolean>
 
 type PostCardProps = {
   slug: string
@@ -21,6 +23,10 @@ type PostCardProps = {
     } | null
   } | null
   categories?: Array<{ title?: string | null; slug?: string | null } | null> | null
+  /** Override the default `post_card_click` event fired on title/cover click. */
+  eventName?: string
+  /** Extra params merged into the click event (slug is always included). */
+  eventParams?: EventParams
 }
 
 export function PostCard({
@@ -31,6 +37,8 @@ export function PostCard({
   coverImage,
   author,
   categories,
+  eventName = "post_card_click",
+  eventParams,
 }: PostCardProps) {
   const formattedDate = publishedAt
     ? new Date(publishedAt).toLocaleDateString("it-IT", {
@@ -44,9 +52,16 @@ export function PostCard({
     ? urlFor(coverImage as Parameters<typeof urlFor>[0]).width(800).height(500).url()
     : null
 
+  const finalEventParams: EventParams = { slug, ...(eventParams ?? {}) }
+
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-shadow hover:shadow-md">
-      <Link href={`/blog/${slug}`} className="relative block aspect-[16/10] overflow-hidden bg-muted">
+      <TrackedLink
+        href={`/blog/${slug}`}
+        className="relative block aspect-[16/10] overflow-hidden bg-muted"
+        eventName={eventName}
+        eventParams={finalEventParams}
+      >
         {cover ? (
           <Image
             src={cover}
@@ -56,27 +71,35 @@ export function PostCard({
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
         ) : null}
-      </Link>
+      </TrackedLink>
 
       <div className="flex flex-1 flex-col gap-3 p-6">
         {categories && categories.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {categories.filter(Boolean).slice(0, 2).map((cat) =>
               cat?.slug ? (
-                <Link
+                <TrackedLink
                   key={cat.slug}
                   href={`/blog/category/${cat.slug}`}
                   className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                  eventName="blog_category_click"
+                  eventParams={{ category: cat.slug, source_slug: slug }}
                 >
                   {cat.title}
-                </Link>
+                </TrackedLink>
               ) : null,
             )}
           </div>
         ) : null}
 
         <h3 className="font-serif text-xl leading-snug text-foreground transition-colors group-hover:text-primary">
-          <Link href={`/blog/${slug}`}>{title}</Link>
+          <TrackedLink
+            href={`/blog/${slug}`}
+            eventName={eventName}
+            eventParams={finalEventParams}
+          >
+            {title}
+          </TrackedLink>
         </h3>
 
         {excerpt ? (

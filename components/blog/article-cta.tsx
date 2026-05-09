@@ -1,6 +1,10 @@
+"use client"
+
+import { useEffect, useRef } from "react"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 import { TrackedLink } from "@/components/tracked-link"
+import { trackEvent } from "@/lib/analytics"
 import { isWaitlist } from "@/lib/config"
 
 type Props = {
@@ -8,7 +12,42 @@ type Props = {
   slug?: string
 }
 
+const VIEW_THRESHOLD = 0.5
+
+function useCtaViewTracking(
+  ref: React.RefObject<HTMLElement | null>,
+  variant: "inline" | "final",
+  slug: string | undefined
+) {
+  const fired = useRef(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || fired.current) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !fired.current) {
+            fired.current = true
+            trackEvent("blog_cta_view", {
+              location: variant === "inline" ? "article_inline" : "article_final",
+              ...(slug ? { slug } : {}),
+            })
+            observer.disconnect()
+          }
+        }
+      },
+      { threshold: VIEW_THRESHOLD }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref, variant, slug])
+}
+
 export function ArticleCta({ variant = "final", slug }: Props) {
+  const ref = useRef<HTMLElement>(null)
+  useCtaViewTracking(ref, variant, slug)
+
   const targetHref = isWaitlist ? "/#lista-attesa" : "/#prezzi"
   const ctaLabel = isWaitlist ? "Iscriviti gratis" : "Inizia gratis"
   const eventLocation = variant === "inline" ? "article_inline" : "article_final"
@@ -16,7 +55,10 @@ export function ArticleCta({ variant = "final", slug }: Props) {
 
   if (variant === "inline") {
     return (
-      <aside className="my-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
+      <aside
+        ref={ref}
+        className="my-12 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8"
+      >
         <div className="flex items-start gap-4">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
             <Sparkles className="h-5 w-5 text-primary" />
@@ -50,7 +92,10 @@ export function ArticleCta({ variant = "final", slug }: Props) {
   }
 
   return (
-    <aside className="mt-16 overflow-hidden rounded-2xl bg-primary px-6 py-12 text-center sm:px-12 sm:py-16">
+    <aside
+      ref={ref}
+      className="mt-16 overflow-hidden rounded-2xl bg-primary px-6 py-12 text-center sm:px-12 sm:py-16"
+    >
       <p className="text-balance font-serif text-2xl text-primary-foreground sm:text-3xl">
         Hai trovato utile questo articolo?
       </p>

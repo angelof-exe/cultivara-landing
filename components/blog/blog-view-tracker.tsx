@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react"
 import { trackEvent } from "@/lib/analytics"
 
 type BlogViewTrackerProps = {
-  event: "blog_list_view" | "blog_post_view" | "blog_category_view"
+  event: string
   params?: Record<string, string | number | boolean>
 }
 

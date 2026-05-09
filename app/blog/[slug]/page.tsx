@@ -8,6 +8,7 @@ import { PostBody } from "@/components/blog/post-body"
 import { PostToc } from "@/components/blog/post-toc"
 import { RelatedPosts } from "@/components/blog/related-posts"
 import { ArticleCta } from "@/components/blog/article-cta"
+import { PostShareButtons } from "@/components/blog/post-share-buttons"
 import { BlogViewTracker } from "@/components/blog/blog-view-tracker"
 import { ArticleReadTracker } from "@/components/blog/article-read-tracker"
 import { sanityFetch } from "@/sanity/lib/live"
@@ -142,6 +143,11 @@ export default async function PostPage({ params }: Props) {
                 <PostBody value={bodyAfterCta} />
               </>
             ) : null}
+            <PostShareButtons
+              slug={slug}
+              title={post.title ?? ""}
+              excerpt={post.excerpt ?? null}
+            />
             <ArticleCta variant="final" slug={slug} />
           </article>
           <aside className="hidden lg:block">
@@ -151,6 +157,7 @@ export default async function PostPage({ params }: Props) {
           </aside>
         </div>
         <RelatedPosts
+          sourceSlug={slug}
           posts={(post.relatedPosts ?? [])
             .filter((p): p is NonNullable<typeof p> => Boolean(p?.slug))
             .map((p) => ({
