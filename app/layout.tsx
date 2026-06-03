@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: '%s | Cultivara — Quaderno di Campagna Digitale',
   },
   description:
-    'Quaderno di Campagna digitale conforme al Regolamento UE 2023/564. Registra trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali. Magazzino prodotti, costi colturali, 15 controlli automatici.',
+    'Quaderno di Campagna digitale per agricoltori italiani. Conforme al Reg. UE 2023/564. 15 controlli automatici, export PDF/JSON/XML. Obbligatorio dal 2027.',
   keywords: [
     'quaderno di campagna',
     'quaderno di campagna digitale',
@@ -83,7 +83,9 @@ export const metadata: Metadata = {
     url: 'https://cultivara.it',
     images: [
       {
-        url: '/logo.svg',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
         alt: 'Cultivara — Quaderno di Campagna Digitale',
       },
     ],
@@ -93,7 +95,7 @@ export const metadata: Metadata = {
     title: 'Quaderno di Campagna Digitale | Cultivara',
     description:
       'Il quaderno di campagna digitale più semplice d’Italia. Conforme AGEA, SIAN e Regolamento UE 2023/564.',
-    images: ['/logo.svg'],
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: 'https://cultivara.it',
