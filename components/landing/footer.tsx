@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Instagram, Facebook } from "lucide-react";
 import { TrackedLink, TrackedAnchor } from "@/components/tracked-link";
-import { isWaitlist } from "@/lib/config";
+import { offerNavLink } from "@/lib/config";
 
 const socialLinks = [
   {
@@ -49,9 +49,7 @@ const complianceLinks: FooterLink[] = [
 
 const productLinks: FooterLink[] = [
   { label: "Funzionalit\u00e0", href: "#funzionalita" },
-  isWaitlist
-    ? { label: "Lista d'Attesa", href: "#lista-attesa" }
-    : { label: "Prezzi", href: "#prezzi" },
+  { label: offerNavLink.label, href: offerNavLink.href },
   { label: "Come Funziona", href: "#come-funziona" },
   { label: "FAQ", href: "#faq" },
 ]

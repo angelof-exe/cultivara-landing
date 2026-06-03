@@ -1,6 +1,10 @@
-import { isWaitlist } from "@/lib/config"
+import { isWaitlist, isReleaseFree } from "@/lib/config"
 
 export function StructuredData() {
+  // Niente prezzi a pagamento né rating quando la home non vende piani:
+  // lista d'attesa (waitlist) o accesso gratuito completo (release_free).
+  const hidePaidOffers = isWaitlist || isReleaseFree
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -29,7 +33,7 @@ export function StructuredData() {
     operatingSystem: "Web, Android, iOS",
     description:
       "Software per il quaderno di campagna digitale. Registro trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali, magazzino prodotti e costi colturali. 15 controlli automatici di conformità (normativi, Ecoschemi PAC, Disciplinari PI). Export PDF, JSON e XML. Conforme al Regolamento UE 2023/564 e AGEA.",
-    ...(isWaitlist ? {} : {
+    ...(hidePaidOffers ? {} : {
       offers: [
         {
           "@type": "Offer",

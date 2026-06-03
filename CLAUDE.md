@@ -31,14 +31,20 @@ No test runner is configured.
 
 ## Architectural pillars
 
-### 1. APP_MODE switch (waitlist ↔ saas)
+### 1. APP_MODE switch (waitlist ↔ release_free ↔ saas)
 
-`NEXT_PUBLIC_APP_MODE` (`"waitlist"` | `"saas"`, defaults to `"saas"`) is read by [lib/config.ts](lib/config.ts) and drives what renders on the homepage:
+`NEXT_PUBLIC_APP_MODE` (`"waitlist"` | `"release_free"` | `"saas"`, defaults to `"saas"`) is read by [lib/config.ts](lib/config.ts) and drives what renders on the homepage:
 
-- [app/page.tsx](app/page.tsx) swaps `<Pricing />` ↔ `<WaitlistForm />` based on `isWaitlist`
-- [components/landing/structured-data.tsx](components/landing/structured-data.tsx) omits `offers` + `aggregateRating` from the SoftwareApplication JSON-LD when in waitlist mode
+- `waitlist` (`isWaitlist`) — collects emails via `<WaitlistForm />`; CTAs point to the in-page `#lista-attesa` anchor
+- `release_free` (`isReleaseFree`) — pre-VAT phase: **free access to all features** for anyone who signs up. Shows `<FreeAccess />` (the "tutto gratis" section) instead of pricing, and CTAs point to the **external app** (`SIGNUP_URL` / `LOGIN_URL`, derived from `NEXT_PUBLIC_APP_URL`)
+- `saas` — commercial mode: shows `<Pricing />`; CTAs point to `#prezzi`
 
-When adding homepage sections, decide whether they belong in both modes or gate them behind `isWaitlist`. Do **not** read `process.env.NEXT_PUBLIC_APP_MODE` directly — always import from `lib/config`.
+Central helpers live in [lib/config.ts](lib/config.ts): `primaryCtaHref` / `primaryCtaIsExternal` / `primaryCtaEventLabel` (the main "inizia" CTA target+label per mode) and `offerNavLink` (the navbar/footer link to the homepage offer section). Components consume these instead of re-deriving ternaries.
+
+- [app/page.tsx](app/page.tsx) swaps `<WaitlistForm />` / `<FreeAccess />` / `<Pricing />` based on `isWaitlist` / `isReleaseFree`
+- [components/landing/structured-data.tsx](components/landing/structured-data.tsx) omits `offers` + `aggregateRating` from the SoftwareApplication JSON-LD whenever the home isn't selling paid plans (`isWaitlist || isReleaseFree`)
+
+When adding homepage sections, decide whether they belong in all modes or gate them. Do **not** read `process.env.NEXT_PUBLIC_APP_MODE` directly — always import from `lib/config`. For CTAs that must reach the real app, use `SIGNUP_URL` / `LOGIN_URL` (configurable via `NEXT_PUBLIC_APP_URL`), never a hardcoded domain.
 
 ### 2. Consent-gated analytics pipeline
 

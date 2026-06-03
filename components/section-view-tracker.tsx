@@ -11,6 +11,8 @@ const TRACKED_SECTIONS = [
   "come-funziona",
   "conformita",
   "lista-attesa",
+  "accesso-gratuito",
+  "prezzi",
   "blog",
   "faq",
   "cta-finale",
