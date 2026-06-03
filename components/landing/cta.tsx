@@ -2,9 +2,20 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { TrackedLink } from "@/components/tracked-link"
-import { isWaitlist } from "@/lib/config"
+import { isWaitlist, isReleaseFree, primaryCtaHref, primaryCtaEventLabel } from "@/lib/config"
 
 export function Cta() {
+  const heading = isWaitlist
+    ? "Non perdere il lancio di Cultivara"
+    : isReleaseFree
+      ? "Attiva subito il tuo Quaderno di Campagna, gratis"
+      : "Attiva il tuo Quaderno di Campagna digitale, oggi"
+  const description = isWaitlist
+    ? "Iscriviti alla lista d'attesa per essere tra i primi a provare il quaderno di campagna digitale pi\u00f9 semplice d'Italia."
+    : isReleaseFree
+      ? "Registrati ora: i primi 20 iscritti ottengono accesso completo a tutte le funzionalit\u00e0, gratis per un anno dall'iscrizione. Nessun costo e nessuna carta di credito."
+      : "Inizia gratis e scopri quanto \u00e8 semplice gestire il quaderno di campagna online con Cultivara. Nessuna carta di credito richiesta."
+
   return (
     <section id="cta-finale" className="py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -15,14 +26,10 @@ export function Cta() {
 
           <div className="relative">
             <h2 className="text-balance font-serif text-3xl text-primary-foreground md:text-4xl lg:text-5xl">
-              {isWaitlist
-                ? "Non perdere il lancio di Cultivara"
-                : "Attiva il tuo Quaderno di Campagna digitale, oggi"}
+              {heading}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-pretty text-lg leading-relaxed text-primary-foreground/80">
-              {isWaitlist
-                ? "Iscriviti alla lista d'attesa per essere tra i primi a provare il quaderno di campagna digitale pi\u00f9 semplice d'Italia."
-                : "Inizia gratis e scopri quanto \u00e8 semplice gestire il quaderno di campagna online con Cultivara. Nessuna carta di credito richiesta."}
+              {description}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button
@@ -32,9 +39,9 @@ export function Cta() {
                 asChild
               >
                 <TrackedLink
-                  href={isWaitlist ? "#lista-attesa" : "#inizia"}
+                  href={primaryCtaHref}
                   eventName="cta_click"
-                  eventParams={{ location: "cta_finale", label: isWaitlist ? "waitlist" : "inizia_gratis" }}
+                  eventParams={{ location: "cta_finale", label: primaryCtaEventLabel }}
                 >
                   {isWaitlist ? "Iscriviti alla Lista d'Attesa" : "Inizia Gratis"}
                   <ArrowRight className="h-4 w-4" />

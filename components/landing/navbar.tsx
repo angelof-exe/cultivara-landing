@@ -6,7 +6,15 @@ import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { TrackedLink } from "@/components/tracked-link"
-import { isWaitlist } from "@/lib/config"
+import {
+  isWaitlist,
+  isReleaseFree,
+  primaryCtaHref,
+  primaryCtaIsExternal,
+  primaryCtaEventLabel,
+  offerNavLink,
+  LOGIN_URL,
+} from "@/lib/config"
 
 type NavLink = { label: string; href: string; isRoute?: boolean }
 
@@ -14,9 +22,7 @@ const navLinks: NavLink[] = [
   { label: "Funzionalità", href: "#funzionalita" },
   { label: "Come Funziona", href: "#come-funziona" },
   { label: "Blog", href: "/blog", isRoute: true },
-  isWaitlist
-    ? { label: "Lista d'Attesa", href: "#lista-attesa" }
-    : { label: "Prezzi", href: "#prezzi" },
+  { label: offerNavLink.label, href: offerNavLink.href },
   { label: "FAQ", href: "#faq" },
 ]
 
@@ -34,11 +40,15 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
 
-  const primaryCtaAnchor = isWaitlist ? "#lista-attesa" : "#prezzi"
-  const primaryCtaHref = resolveAnchor(primaryCtaAnchor, pathname)
-  const primaryCtaLabel = isWaitlist ? "waitlist" : "inizia_gratis"
+  // In release_free la CTA primaria è un URL esterno (registrazione app):
+  // non va passata da resolveAnchor, che è pensata per le ancore in-page.
+  const primaryCtaTargetHref = primaryCtaIsExternal
+    ? primaryCtaHref
+    : resolveAnchor(primaryCtaHref, pathname)
+  const primaryCtaLabel = primaryCtaEventLabel
   const primaryCtaText = isWaitlist ? "Iscriviti" : "Inizia Gratis"
-  const accediHref = resolveAnchor("#prezzi", pathname)
+  // "Accedi" punta al login dell'app reale in release_free, altrimenti ai prezzi.
+  const accediHref = isReleaseFree ? LOGIN_URL : resolveAnchor("#prezzi", pathname)
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -83,7 +93,7 @@ export function Navbar() {
           )}
           <Button size="sm" asChild>
             <TrackedLink
-              href={primaryCtaHref}
+              href={primaryCtaTargetHref}
               eventName="cta_click"
               eventParams={{ location: "navbar", label: primaryCtaLabel }}
             >
@@ -133,7 +143,7 @@ export function Navbar() {
             )}
             <Button asChild>
               <TrackedLink
-                href={primaryCtaHref}
+                href={primaryCtaTargetHref}
                 eventName="cta_click"
                 eventParams={{ location: "navbar_mobile", label: primaryCtaLabel }}
                 onClick={() => setMobileOpen(false)}
