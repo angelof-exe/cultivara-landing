@@ -11,6 +11,7 @@ import {
   Mail,
   Lightbulb,
   ArrowRight,
+  Linkedin,
 } from "lucide-react"
 import { Footer } from "@/components/landing/footer"
 import { primaryCtaHref } from "@/lib/config"
@@ -75,6 +76,7 @@ const jsonLd = {
       sameAs: [
         "https://www.instagram.com/cultivara.it/",
         "https://www.facebook.com/cultivara.it",
+        "https://www.linkedin.com/company/cultivarait",
       ],
       contactPoint: {
         "@type": "ContactPoint",
@@ -336,17 +338,17 @@ export default function ChiSiamoPage() {
                 </div>
               </a>
               <a
-                href="https://www.instagram.com/cultivara.it/"
+                href="https://www.linkedin.com/company/cultivarait"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 rounded-xl border border-border/60 bg-card p-6 transition-colors hover:border-primary/30 hover:bg-primary/5"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
-                  <Sprout className="h-5 w-5 text-primary" />
+                  <Linkedin className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Instagram</p>
-                  <p className="mt-0.5 text-sm text-muted-foreground">@cultivara.it</p>
+                  <p className="text-sm font-semibold text-foreground">LinkedIn</p>
+                  <p className="mt-0.5 text-sm text-muted-foreground">Cultivara</p>
                 </div>
               </a>
             </div>

@@ -1,11 +1,16 @@
 "use client"
 
 import Image from "next/image";
-import { Instagram, Facebook } from "lucide-react";
+import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { TrackedLink, TrackedAnchor } from "@/components/tracked-link";
 import { offerNavLink } from "@/lib/config";
 
 const socialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/cultivarait",
+    icon: Linkedin,
+  },
   {
     label: "Instagram",
     href: "https://www.instagram.com/cultivara.it/",

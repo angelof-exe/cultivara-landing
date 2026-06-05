@@ -16,6 +16,7 @@ export function StructuredData() {
     sameAs: [
       "https://www.instagram.com/cultivara.it/",
       "https://www.facebook.com/cultivara.it",
+      "https://www.linkedin.com/company/cultivarait",
     ],
     contactPoint: {
       "@type": "ContactPoint",
