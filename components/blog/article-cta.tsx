@@ -5,7 +5,7 @@ import { ArrowRight, Sparkles } from "lucide-react"
 
 import { TrackedLink } from "@/components/tracked-link"
 import { trackEvent } from "@/lib/analytics"
-import { isWaitlist } from "@/lib/config"
+import { isWaitlist, isReleaseFree, SIGNUP_URL } from "@/lib/config"
 
 type Props = {
   variant?: "inline" | "final"
@@ -48,10 +48,18 @@ export function ArticleCta({ variant = "final", slug }: Props) {
   const ref = useRef<HTMLElement>(null)
   useCtaViewTracking(ref, variant, slug)
 
-  const targetHref = isWaitlist ? "/#lista-attesa" : "/#prezzi"
+  const targetHref = isWaitlist
+    ? "/#lista-attesa"
+    : isReleaseFree
+      ? SIGNUP_URL
+      : "/#prezzi"
   const ctaLabel = isWaitlist ? "Iscriviti gratis" : "Inizia gratis"
   const eventLocation = variant === "inline" ? "article_inline" : "article_final"
   const eventLabel = isWaitlist ? "waitlist" : "inizia_gratis"
+  // Frase di invito coerente con la modalità.
+  const inviteCopy = isWaitlist
+    ? "Iscriviti alla lista d'attesa per essere tra i primi a provarlo — gratis, niente carta di credito."
+    : "Registrati e ottieni subito accesso gratuito a tutte le funzionalità — niente carta di credito."
 
   if (variant === "inline") {
     return (
@@ -69,8 +77,7 @@ export function ArticleCta({ variant = "final", slug }: Props) {
             </p>
             <p className="mt-2 text-pretty leading-relaxed text-muted-foreground">
               Cultivara è il quaderno di campagna digitale già conforme alla
-              normativa. Iscriviti alla lista d'attesa per essere tra i primi a
-              provarlo — gratis, niente carta di credito.
+              normativa. {inviteCopy}
             </p>
             <TrackedLink
               href={targetHref}
@@ -100,8 +107,9 @@ export function ArticleCta({ variant = "final", slug }: Props) {
         Hai trovato utile questo articolo?
       </p>
       <p className="mx-auto mt-3 max-w-2xl text-pretty leading-relaxed text-primary-foreground/85">
-        Iscriviti alla lista d'attesa di Cultivara: avrai accesso anticipato al
-        quaderno di campagna digitale e riceverai guide come questa via email.
+        {isWaitlist
+          ? "Iscriviti alla lista d'attesa di Cultivara: avrai accesso anticipato al quaderno di campagna digitale e riceverai guide come questa via email."
+          : "Inizia gratis con Cultivara: gestisci il tuo quaderno di campagna digitale e ricevi guide come questa per restare conforme alla normativa."}
       </p>
       <TrackedLink
         href={targetHref}

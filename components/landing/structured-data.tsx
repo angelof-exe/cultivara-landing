@@ -1,6 +1,10 @@
-import { isWaitlist } from "@/lib/config"
+import { isWaitlist, isReleaseFree } from "@/lib/config"
 
 export function StructuredData() {
+  // Niente prezzi a pagamento né rating quando la home non vende piani:
+  // lista d'attesa (waitlist) o accesso gratuito completo (release_free).
+  const hidePaidOffers = isWaitlist || isReleaseFree
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -12,6 +16,7 @@ export function StructuredData() {
     sameAs: [
       "https://www.instagram.com/cultivara.it/",
       "https://www.facebook.com/cultivara.it",
+      "https://www.linkedin.com/company/cultivarait",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -29,7 +34,7 @@ export function StructuredData() {
     operatingSystem: "Web, Android, iOS",
     description:
       "Software per il quaderno di campagna digitale. Registro trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali, magazzino prodotti e costi colturali. 15 controlli automatici di conformità (normativi, Ecoschemi PAC, Disciplinari PI). Export PDF, JSON e XML. Conforme al Regolamento UE 2023/564 e AGEA.",
-    ...(isWaitlist ? {} : {
+    ...(hidePaidOffers ? {} : {
       offers: [
         {
           "@type": "Offer",
@@ -154,6 +159,24 @@ export function StructuredData() {
     ],
   }
 
+  const webSiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Cultivara",
+    url: "https://cultivara.it",
+    description:
+      "Quaderno di Campagna digitale per agricoltori italiani, conforme al Regolamento UE 2023/564.",
+    inLanguage: "it",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://cultivara.it/blog?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -193,6 +216,12 @@ export function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webSiteSchema),
         }}
       />
       <script

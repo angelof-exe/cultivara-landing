@@ -13,6 +13,7 @@ const POST_FIELDS_LIST = /* groq */ `
 
 const POST_FIELDS_FULL = /* groq */ `
   _id,
+  _updatedAt,
   title,
   "slug": slug.current,
   excerpt,
