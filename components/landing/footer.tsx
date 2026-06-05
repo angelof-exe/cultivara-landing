@@ -55,7 +55,7 @@ const productLinks: FooterLink[] = [
 ]
 
 const companyLinks: FooterLink[] = [
-  { label: "Chi Siamo", href: "#" },
+  { label: "Chi Siamo", href: "/chi-siamo" },
   {
     label: "Contatti",
     href: "mailto:info@cultivara.it",
