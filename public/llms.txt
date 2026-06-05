@@ -1,0 +1,29 @@
+# Cultivara
+
+> Software per il Quaderno di Campagna Aziendale (QDCA) digitale. Conforme al Regolamento UE 2023/564. Obbligatorio in Italia dal 1° gennaio 2027.
+
+Cultivara è la piattaforma italiana per la gestione del quaderno di campagna digitale. Permette agli agricoltori di registrare trattamenti fitosanitari, fertilizzazioni, irrigazioni, operazioni colturali e gestire il magazzino prodotti. Produce export PDF, JSON e XML conformi AGEA. Include 15 controlli automatici di conformità (Direttiva Nitrati, limiti rame, Ecoschemi PAC 2023-2027, Disciplinari di Produzione Integrata). Progettato per agricoltori italiani, anche over 60, con interfaccia mobile-first e registrazione trattamento in meno di 60 secondi.
+
+## Prodotto
+
+- [Home](https://cultivara.it): panoramica del prodotto e accesso alla piattaforma
+- [Come Funziona](https://cultivara.it/#come-funziona): flusso operativo step-by-step per registrare trattamenti
+- [Funzionalità](https://cultivara.it/#funzionalita): 10 sezioni QDCA, 15 controlli automatici, export PDF/JSON/XML
+- [FAQ](https://cultivara.it/#faq): risposte su obblighi, scadenze, funzionalità
+
+## Normativa di Riferimento
+
+- [Regolamento UE 2023/564](https://cultivara.it/normativa-ue-2023-564): obbligo digitale dal 1° gennaio 2027, formato machine-readable, dati obbligatori per trattamento
+- [D.Lgs. 150/2012](https://cultivara.it/dlgs-150-2012): decreto italiano sull'uso sostenibile dei prodotti fitosanitari
+- [Guida AGEA](https://cultivara.it/guida-agea): istruzioni operative AGEA per la compilazione conforme del QDCA
+
+## Blog
+
+- [Blog](https://cultivara.it/blog): guide pratiche su normativa QDCA, agevolazioni fiscali, agricoltura digitale
+
+## Contatti
+
+- Email: info@cultivara.it
+- LinkedIn: https://www.linkedin.com/company/cultivarait
+- Instagram: https://www.instagram.com/cultivara.it/
+- Facebook: https://www.facebook.com/cultivara.it

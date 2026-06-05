@@ -94,27 +94,63 @@ export default async function PostPage({ params }: Props) {
   const { blocks: enrichedBody, toc } = enrichHeadingBlocks(post.body)
   const { first: bodyBeforeCta, second: bodyAfterCta } = splitBodyAtMidpoint(enrichedBody)
 
+  const articleImage = post.coverImage?.asset?._ref
+    ? urlFor(post.coverImage).width(1200).height(630).url()
+    : undefined
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.publishedAt,
-    author: post.author?.name
-      ? { "@type": "Person", name: post.author.name }
-      : undefined,
-    image: post.coverImage?.asset?._ref
-      ? urlFor(post.coverImage).width(1200).height(630).url()
-      : undefined,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://cultivara.it/blog/${slug}`,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Cultivara",
-      logo: { "@type": "ImageObject", url: "https://cultivara.it/logo.svg" },
-    },
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: post.title,
+        description: post.excerpt,
+        inLanguage: "it",
+        datePublished: post.publishedAt,
+        dateModified: post._updatedAt ?? post.publishedAt,
+        url: `https://cultivara.it/blog/${slug}`,
+        author: post.author?.name
+          ? {
+              "@type": "Person",
+              name: post.author.name,
+              worksFor: { "@type": "Organization", name: "Cultivara", url: "https://cultivara.it" },
+              knowsAbout: [
+                "Quaderno di Campagna Aziendale",
+                "Regolamento UE 2023/564",
+                "Normativa fitosanitaria italiana",
+                "Agricoltura digitale",
+                "PAC 2023-2027",
+              ],
+            }
+          : undefined,
+        image: articleImage
+          ? { "@type": "ImageObject", url: articleImage, width: 1200, height: 630 }
+          : undefined,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://cultivara.it/blog/${slug}`,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Cultivara",
+          url: "https://cultivara.it",
+          logo: { "@type": "ImageObject", url: "https://cultivara.it/android-chrome-512x512.png" },
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["article h1", "article h2", "article p"],
+        },
+        isPartOf: { "@type": "WebSite", name: "Cultivara", url: "https://cultivara.it" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://cultivara.it" },
+          { "@type": "ListItem", position: 2, name: "Blog", item: "https://cultivara.it/blog" },
+          { "@type": "ListItem", position: 3, name: post.title, item: `https://cultivara.it/blog/${slug}` },
+        ],
+      },
+    ],
   }
 
   return (

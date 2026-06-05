@@ -16,6 +16,7 @@ export function StructuredData() {
     sameAs: [
       "https://www.instagram.com/cultivara.it/",
       "https://www.facebook.com/cultivara.it",
+      "https://www.linkedin.com/company/cultivarait",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -158,6 +159,24 @@ export function StructuredData() {
     ],
   }
 
+  const webSiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Cultivara",
+    url: "https://cultivara.it",
+    description:
+      "Quaderno di Campagna digitale per agricoltori italiani, conforme al Regolamento UE 2023/564.",
+    inLanguage: "it",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://cultivara.it/blog?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -197,6 +216,12 @@ export function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webSiteSchema),
         }}
       />
       <script
