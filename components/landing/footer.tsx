@@ -67,8 +67,8 @@ const companyLinks: FooterLink[] = [
     eventName: "mailto_click",
     eventParams: { location: "footer" },
   },
-  { label: "Privacy Policy", href: "#" },
-  { label: "Termini di Servizio", href: "#" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Termini di Servizio", href: "/termini-di-servizio" },
 ]
 
 const footerSections: { title: string; links: FooterLink[] }[] = [

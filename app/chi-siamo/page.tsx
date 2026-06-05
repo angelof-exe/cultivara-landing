@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import {
-  Leaf,
   ArrowLeft,
   Target,
   Heart,
@@ -122,9 +122,7 @@ export default function ChiSiamoPage() {
       <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2" aria-label="Cultivara home">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <Leaf className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <Image src="/logo.svg" alt="Cultivara logo" width={36} height={36} className="h-9 w-9" />
             <span className="font-serif text-xl text-foreground">Cultivara</span>
           </Link>
           <Link
@@ -245,8 +243,14 @@ export default function ChiSiamoPage() {
             <div className="mt-10">
               <div className="rounded-xl border border-border/60 bg-card p-8">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-                    AF
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
+                    <Image
+                      src="/angelo-franciamore-profile-picture.jpg"
+                      alt="Angelo Franciamore — Fondatore di Cultivara"
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-foreground">Angelo Franciamore</h3>
@@ -269,6 +273,15 @@ export default function ChiSiamoPage() {
                       >
                         <Mail className="h-4 w-4" />
                         Contatta
+                      </a>
+                      <a
+                        href="https://www.linkedin.com/in/angelo-franciamore/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                        LinkedIn
                       </a>
                     </div>
                   </div>
