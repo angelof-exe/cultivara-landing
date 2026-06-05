@@ -11,6 +11,7 @@ import { DisableDraftMode } from '@/components/disable-draft-mode'
 import { UtmCapture } from '@/components/utm-capture'
 import { ScrollDepthTracker } from '@/components/scroll-depth-tracker'
 import { TimeTracker } from '@/components/time-tracker'
+import { ScrollToTop } from '@/components/scroll-to-top'
 import './globals.css'
 
 const dmSans = DM_Sans({
@@ -124,6 +125,7 @@ export default async function RootLayout({
           {children}
           <Toaster position="top-center" richColors />
           <Analytics />
+          <ScrollToTop />
           <UtmCapture />
           <ScrollDepthTracker />
           <TimeTracker />
