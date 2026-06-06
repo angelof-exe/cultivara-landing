@@ -50,7 +50,7 @@ export function FreeAccess() {
 
         {/* Free access card */}
         <div className="mx-auto mt-16 max-w-3xl">
-          <div className="relative overflow-hidden rounded-2xl border border-primary bg-background p-6 shadow-xl shadow-primary/10 lg:p-10">
+          <div className="relative rounded-2xl border border-primary bg-background p-6 shadow-xl shadow-primary/10 lg:p-10">
             <Badge className="absolute -top-3 left-8 gap-1.5 px-3 py-1">
               <Gift className="h-3.5 w-3.5" />
               Solo per i primi 20 iscritti
